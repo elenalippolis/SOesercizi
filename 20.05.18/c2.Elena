@@ -1,0 +1,16 @@
+bool isFree= false;
+proc[x]: x='a',...,'z'
+while True:
+  if(isFree){
+  isFree = false;
+  (c, string) = arecv(*)
+  print(x)
+  if (len(string) > 1)
+  asend(proc[string[0]], (x, string[1:]))proc[x]: x='a',...,'z'
+while True:
+(c, string) = arecv(*)
+print(x)
+if (len(string) > 1)
+asend(proc[string[0]], (x, string[1:]))
+ }
+ isFree = true;
