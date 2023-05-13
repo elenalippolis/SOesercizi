@@ -1,0 +1,26 @@
+//nella soluzione che ho trovato crea una condizione per ogni processo; è davvero necessario?
+
+monitor multibuf {
+  T buffer [MAX];
+  condition disponibile, svuota;
+  
+  void add(int n, T objects[]){
+    if(buffer.length + n > MAX){
+      svuota.wait();
+    //l'altra funzione in realta non pens che svuoti il buffer, quindi rimane qui per sempre credo (deadlock)
+    copia_in_coda(objects[n], buffer[MAX]);
+    disponibile.signal();
+  }
+  
+  void get(int n, T objects[]){
+    bool empty = false; int i;
+    while(!empty || i<=n){
+      if(buffer[i]==null){
+        empty = true;
+      i++;
+     }
+    if(empty){
+      disponibile.wait();
+    copia_elementi(buffer[n], objects[n]);
+  }
+   
