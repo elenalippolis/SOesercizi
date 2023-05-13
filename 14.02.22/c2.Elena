@@ -1,0 +1,32 @@
+Lista <> Lista_mandati, lista_ricevuti;
+contidion pending, received;
+
+void snsend(msg_type msg, pid_t dest){
+  asend(<msg, getpid()>, dest);
+  lista_mandati.add(<msg, getPid()>);
+  pending(signal);
+}
+
+msg_type snrecv(pid_t sender, int n){
+  if(n>0){
+    msg = arecv(sender);
+    lista_ricevuti.add(<msg, sender>);
+    lista_mandati.remove(<msg, sender>);
+    received.signal();
+    
+    if(sender == ANY){
+      while(lista_mandati.length < n){
+        pending.wait();
+      return(lista_mandati(n);
+    } else { 
+       lista tmp = lista_ricevuti.sort(sender);
+       while(tmp.length < n){
+        received.wait();
+       return(tmp[n]);
+     }
+   } else {
+    if(sender == ANY){
+      return lista_mandati[lista_mandati.length]);
+    } else { lista tmp = lista_ricevuti.sort(sender);
+             return (tmp[tmp.length]);
+           }
