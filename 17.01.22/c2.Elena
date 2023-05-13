@@ -1,0 +1,20 @@
+semaforo s1;
+lista <> pending;
+
+void sasend(msg_t msg, pid dest){
+  semaforo s0;
+  ssend(<msg, s0>, dest);
+  pending.add(<msg, s0>);
+  s1.V();
+  s0.P();
+}
+
+msg_t sarecv(void){
+  if(pending.isEmpty()){
+    s1.P();
+   }
+  <msg, sem> = sreceive(ANY);
+  pending.remove(<msg, sem>)
+  sem.V(); //sblocca la fine di sasend, corrispettivo s0
+  return msg;
+}
