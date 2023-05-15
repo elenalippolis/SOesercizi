@@ -1,0 +1,24 @@
+lista <msg, pid> messaggi;
+
+sasend(msg, dest){
+  asend(<msg, getpid()>, dest);
+  //se non c'è in messaggi un messaggio con quel pid lo aggiungo
+  if(!getpid().isIn(messaggi)){
+    messaggi.enqueue(<msg, getpid()>);
+  }
+}
+
+sarecv(senders){
+  if(senders.isEmpty()){
+    return(arecv(ANY));
+  } else {
+  //per ogni mittente nell'insieme vedo se arriva un messaggio con arecv
+  //e cerco se nella lista messaggi c'è il mittente, se si restituisco il (primo) messaggio del sender
+    for(sender in senders){
+      msg_n = arecv(sender);
+      if(sender.isIn(messaggi)){
+        return (getMsg(messaggi.sender));
+      }
+    }
+    
+  }
