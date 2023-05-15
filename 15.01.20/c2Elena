@@ -1,0 +1,25 @@
+queue <pid, msg, int> mulmsg;
+
+mulsend(pid_t dest, T msg, int times){
+  for(int i=0; i<times; i++){
+    asend(<msg, getid()>, dest);
+   }
+  mulmsg.enqueue(<getid(), msg, times>);
+  arecv(dest);
+}
+
+mulrecv(pid_t sender){
+  if(sender==0){
+    msg = arecv(ANY);
+  } else {
+    msg = arecv(sender);
+   }
+   
+   //se times in <pid, msg, time> è uguale a 0, manda notifica a sender che è stato ricevuto
+   if(get_time(mulmsg(sender, msg))==0){
+    asend(msg, sender);
+   //sennò decrementa il campo time di uno dell'istanza <pid, msg, time>
+   } else {
+    (decr_time(mulmsg(sender, msg));
+   }
+   
