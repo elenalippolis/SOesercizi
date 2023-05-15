@@ -1,0 +1,32 @@
+monitor semtimeout {
+  queue (condition) waiting = new queue();
+  condition coda_vuota;
+  int tempo = 0;
+  
+  void V(){
+     if(waiting.isEmpty()){
+      coda_vuota.wait();
+     }
+     condition c = waiting.dequeue();
+     c.signal();
+  }
+  
+  bool P(int timeout) {
+    bool end = false;
+    condition c = new condition;
+    waiting.enqueue(c);
+    start_time = tempo;
+    while (!end) {
+      if (start_time - tempo == timeout){
+        end = true;
+      }
+      if(is_in(c, waiting)){
+        return false;
+      }
+      else return true
+   }
+   
+   void tick(){
+    tempo ++;
+   }
+      
