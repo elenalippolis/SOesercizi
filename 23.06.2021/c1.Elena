@@ -1,0 +1,16 @@
+NDELAY = X;
+monitor DELAYVALUE{
+  lista <int, cond> waiting;
+  
+  int delay(int value){
+    if(waiting.length == NDELAY){
+      last_value = waiting.dequeue();
+      last_value.condition.signal();
+     }
+     
+     condition c = new condition;
+     waiting.enqueue(<value, c>);
+     c.wait();
+     return(value);
+   }
+}
