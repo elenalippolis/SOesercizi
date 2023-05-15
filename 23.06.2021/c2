@@ -1,0 +1,20 @@
+stack <sem, time, int> stack;
+sem mutex;
+int time = 0;
+
+void PLP(int prio){
+  time ++;
+  semaphore sem = new semaphore;
+  stack.push(<sem, time, prio>);
+  mutex.V();
+  sem.P();
+ }
+ 
+ void PLV(){
+  mutex.P();
+  //funzione che ordina gli elementi in stack valutando prio in ordine decrescente, e 
+  //se ci sono due prio uguali, sceglie il time minore
+  stack.ordina_decr(prio, time);
+  <sem, time, prio> = stack.pop();
+  sem.V();
+ }
