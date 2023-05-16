@@ -1,0 +1,25 @@
+monitor riempisvuota {
+  condition riempi, svuota;
+  stack <pid, condition> proc;
+  
+  void entra(getpid()){
+    if(riempi.length>=MAX){
+      svuota.signal();
+      riempi.wait();
+    }
+    
+    c = new condition;
+    proc.push(<getpid(), c>);
+    c.wait();
+  }
+  
+  void esci(getpid()){
+    svuota.wait();
+    // se il pid è in proc
+    if(is_in(getpid(), proc){
+      while(!proc.isEmpty()){
+        (pid, c) = proc.pop();
+        c.signal();
+      }
+      riempi.signal();
+    }
