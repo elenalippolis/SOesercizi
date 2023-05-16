@@ -1,20 +1,58 @@
-semaforo s1;
-lista <> pending;
+//esercizio corretto
 
-void sasend(msg_t msg, pid dest){
-  semaforo s0;
-  ssend(<msg, s0>, dest);
-  pending.add(<msg, s0>);
-  s1.V();
-  s0.P();
+waiting{
+  dest;
+  next;
 }
 
-msg_t sarecv(void){
-  if(pending.isEmpty()){
-    s1.P();
+void ssend(msg_t msg, pid dest){
+  sasend(<msg, getpid()>, dest);
+  waiting.append(dest);
+  bool lock;
+  waiting_ack=waiting;
+  
+  do {
+    <ack, pid> = sarecv();
+    do {
+      if(pid == waiting_ack.dest){
+        waiting.remove(waiting_ack.dest);
+      }
+      waiting_ack = waiting_ack.next;
+     } while(!waiting_ack.isEmpty());
+     lock = waiting.isEmpty() ? false : true;
+   } while(lock);
+  
+}
+
+lista {
+  msg_t msg;
+  pid_t pid;
+  next;
+}
+
+msg_t sarecv(pid_t mitt){
+  bool check;
+  do {
+    <msg_t msg, pid_t pid> = sarecv();
+    if(mitt == pid) {
+      sasend(<ACK, getpid()>, pid);
+      return msg;
+    }
+    if(!lista.isEmpty()){
+      while(lista.next != null) {
+        if(lista.pid == mitt){
+          sasend(<ACK, getpid()>, lista.pid);
+          messaggio = lista.msg;
+          lista.remove(lista.pid, lista.msg);
+          return messaggio;
+        }
+        lista = lista.next;
+      }
+      lista.append(msg, pid);
+      check = true;
+     } while(check);
    }
-  <msg, sem> = sreceive(ANY);
-  pending.remove(<msg, sem>)
-  sem.V(); //sblocca la fine di sasend, corrispettivo s0
-  return msg;
+    
+    
+
 }
