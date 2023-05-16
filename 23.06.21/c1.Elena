@@ -4,13 +4,16 @@ monitor DELAYVALUE{
   
   int delay(int value){
     if(waiting.length == NDELAY){
-      last_value = waiting.dequeue();
-      last_value.condition.signal();
+      <val, cond> = waiting.dequeue();
+      cond.signal();
+      return(value);
      }
      
      condition c = new condition;
      waiting.enqueue(<value, c>);
      c.wait();
-     return(value);
    }
 }
+
+//non serve la lista basta mettere un int waiting = 0 all'inizio, incrementarlo all'inizio del delay e decrementarlo alla fine
+//in una soluzione usa una sola condition all'inizio del monitor
