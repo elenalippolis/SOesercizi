@@ -1,0 +1,5 @@
+con un time quantum = 1, il tempo massimo è di 18ms
+con un time quantum = 2, il tempo massimo è di 16 ms
+con un time quantum = 4, il tempo massimo è di 16ms.
+
+2 e 4 sono i preferibilli; per t.q. > 4 ci sarebbe uno spreco di cpu
