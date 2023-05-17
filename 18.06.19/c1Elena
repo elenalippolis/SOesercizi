@@ -1,0 +1,39 @@
+c2, esame 18/06/2019
+
+monitor uno o centomila ma non nessuno
+
+put (T dato); -> gli scrittori chiamano put
+deve fare in modo che tutti i lettori in attesa (se ce ne sono) ricevano il dato come parametro. se non ce ne sono, deve attendere la prima chiamata in get e trasferire il dato. se ci sono scrittori in attesa, il nuovo simette in coda (FIFO)
+
+T get(); -> i lettori chiamano get
+se c'è uno scrittore in attesa deve ritornare il dato del primo scrittore in attesa ( e sbloccare lo scrittore) altrimenti attende la prossima chiamata della procedure entry put
+
+monitor unocentomila{
+	int lettori = 0;
+	queue (condition, dato) scrittori;
+	condition cget = new condition;
+	
+	put(T dato){
+		if(lettori == 0){
+			cget.wait();    //viene sbloccato appena un lettore chiama una get
+		}
+		condition c = new condition;
+		scrittori.enqueue(c, dato);   //inserisco in una queue <condition, dato> così che rimanga bloccato nel processo
+                                  //finchè non faccio la dequeue prendendo lo scrittore
+		c.wait();
+	}
+	
+	T get(){
+		lettori ++;
+		cget.signal();  //ho aggiunto un lettore quindi posso fare la signal e sbloccare put
+		while(true){                //itera finchè non c'è almeno uno scrittore e fa uscire dalla queue il primo
+		if(scrittori.length > 0){
+			(c, primo_dato) = scrittori.dequeue();
+			c.signal();   //sblocca il processo put
+			lettori --;  //decrementa gli scrittori
+			return(primo_dato);    //restituisce il dato del primo scrittore
+		}
+		
+		
+	}
+			
