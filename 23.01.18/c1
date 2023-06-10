@@ -1,0 +1,36 @@
+Non l'ho mica capito tanto
+
+//proposta dal prof alla correzione:
+
+monitor synmsg {
+	condition ok2send;
+	condition ok2recv;
+	int wp, wc;
+	msg_t *sendBuf, recvBuf;
+	synmsg() {
+		wp = 0;
+		wc = 0;
+	}
+	P.E. void send(msg_t *msg){
+		if (wc == 0) {
+			wp ++;
+			ok2send.wait()
+			wp --;
+			copymsg(msg, recvBuf);
+		} else {
+			sendBuf = msg;
+			ok2recv.signal()
+		}
+	}
+	P.E. void recv(msg_t *msg) {
+		if (wp == 0) {
+			wc ++;
+			ok2recv.wait()
+			wc --;
+			copymsg(sendBuf, msg);
+		} else {
+			recvBuf = msg;
+			ok2send.signal()
+		}
+	}
+}
