@@ -1,0 +1,3 @@
+Fornire un elenco di incongruenze che possono venir rilevate dal fsck (file system check) applicato a file
+system di tipo UNIX (e.g. ext2, bffs). Per ogni tipo di incongruenza indicare come viene riscontrata e con quali
+operazioni il fsck può ripristinare la coerenza.
