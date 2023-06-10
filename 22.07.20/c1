@@ -1,0 +1,32 @@
+monitor porto {
+  condition ok2attracca, ok2salpa, ok2scarica;
+  int res;
+  
+  void attracca(capacità){
+    ok2attracca.wait();
+    int res = capacità;
+    while(res > 0){
+      ok2scarica.signal();
+    }
+  }
+  
+  void salpa(){
+    ok2salpa.wait();
+    ok2attracca.signal();
+  }
+  
+  void scarica(quantità){
+    ok2scarica.wait();
+    while(res>=0){
+      if(res <= quantità){
+        res = 0;
+        quantità =- res;
+        ok2salpa.signal();
+      } else {
+        res -= quantità;
+        quantità=0;
+        ok2scarica.wait();
+      }
+    }
+  }
+}
