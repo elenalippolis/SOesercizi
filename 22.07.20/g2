@@ -1,14 +1,27 @@
 a) Perché un algoritmo di rimpiazzamento a stack non può essere soggetto ad anomalia di Belady?
-Perché in un algoritmo di rimpiazzamento a stack il primo processo che entra è anche il primo che esce dallo stack in caso di 
-rimpiazzamento, quindi non dovrebbe verificarsi l'anomalia di Belady in cui il processore non riesce ad eseguire i processi in quanto
-spreca tutto il tempo di esecuzione ad andare tra la memoria fisica e virtuale.
+L'anomalia di Belady si verifica quando, utilizzando un algoritmo di rimpiazzamento delle pagine, aumentando la dimensione della memoria fisica,
+si verifica un aumento nel numero dei fault di pagina anziché una diminuzione. Questo comportamento può causare una diminuizione delle
+prestazioni del sistema.
+Un algoritmo di rimpiazzamento a stack funziona assegnando la priorità alle pagine più recentemente utilizzate, quindi rimuovendo le pagine che sono 
+state meno recentemente utilizzate. 
 
 b) Le password (criptate) nei sistemi UNIX moderni sono memorizzate in un file inaccessibile agli utenti (/etc/shadow).
 Perché?
-Perché sennò sarebbero accessibili anche agli utenti malintenzionati
+Le password criptate nei sistemi UNIX moderni vengono memorizzate nel file '/etc/shadow', che è reso inaccessibile agli utenti comuni.
+Questo file è protetto in modo che solo gli utenti privilegiati (es. amministratore di sistema) possano accedervi.
+Il motivo principale è evitare che le password siano accessibili a utenti malintenzionati. Se fossero accessibili agli utenti non privilegiati,
+potrebbe essere più facile tentare di decifrare le password o usare tecniche di attacco per ottenere accesso non autorizzato al sistema.
 
 c) Nello scheduler di tipo Shortest Remaining TIme First (versione preemptive di STF: Shortest time first), il tempo
 residuo può diventare negativo. Perché?
+In SRTF il processo con il tempo di esecuzione rimanente più breve viene selezionato per essere eseguito. Tuttavia, se durante l'esecuzione di un 
+processo viene interrotto da un'altra attività con un tempo residuo ancora più breve, il processo in esecuzione viene preempted e messo in attesa, mentre 
+l'altro viene eseguito.
+Il tempo residuo di un processo è la stima del tempo rimanente per completare l'esecuzione. Se un processo viene preempted prima di completare il proprio tempo
+residuo, il suo tempo residuo può diventare negativo. Ciò significa che il sistema ha ritenuto che il processo richieda meno tempo di quanto effettivamente ne ha
+bisogno.
 
 d) Quando si usano i dischi a stato solido i file system vengono configurati in modo da non aggiornare il tempo di
 ultimo accesso ai file (noatime). Perché?
+Quando si usano dischi a stato solido (SSD), i file system vengono configurati in modo da non aggiornare il tempo di ultimo accesso al file,
+spesso tramite l'opzione "noatime". Questo è fatto per migliorare le prestazioni complessive del sistema e per ridurre l'usura degli SSD.
