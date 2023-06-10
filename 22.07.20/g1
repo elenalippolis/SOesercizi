@@ -6,12 +6,17 @@ Quando viene eseguito un fsck (file system check) su un file system di tipo UNIX
 rilevate diverse incongruenze nel file system, come ad esempio:
 1. inode corrotto: può essere rilevato verificando se l'inode ha i campi corretti e validi. Se viene rilevato, il fsck
   può tentare di riparare l'inode ripristinandolo dai backup o segnalandolo come danneggiato e rimuovendo il file associato
+  
 2. blocco di dati mancante o danneggiato: il fsck verifica se i blocchi di dati puntati dagli inode esistono e sono accessibili
   se viene rilevato, il fsck può marcare l'area come non utilizzabile e correggere i puntatori dell'inode
+  
 3. superblocco danneggiato: il fsck può cercare di recuperare una copia di backup del superblocco e ripristinare le info corrotte
+
 4. link incrociati o duplicati: possono essererilevati se i link tra i file e le directory sono coerenti. 
   Si può riparare la problema rimuovendo i link duplicati o ricostruendo i link corretti.
+  
 5. bitmap di allocazione dei blocchi danneggiato: il fsck verifica la coerenza della bitmap di allocazione dei blocchi, che tiene 
   traccia dei blocchi di dati liberi e utilizzati. Se è danneggiata, il fsck può tentare di ripristinare la bitmap corretta
+  
 6. perdita di collegamenti: il fsck può rilevare la perdita di collegamenti verificando se gli inode puntati da una directory
   esistono effettivamente nel file system.
