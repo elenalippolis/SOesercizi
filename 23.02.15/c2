@@ -1,0 +1,25 @@
+#define ANY (pid_t) 0
+
+queue <pid_t, int> pendingMsg;
+
+void casend(pid_t dest, T msg){
+  asend(<msg, getPid()>, dest);
+  if(pendingMsg.found(sender)){
+    pendingMsg.incrementInt(sender);
+  } else {
+    pendingMsg.enqueue(sender, 1);
+  }
+  
+  ACK = arecv(dest); //in un while? bloccante?
+  pendingMsg.dequeue(dest);
+}
+
+void carecv(pid_t sender){ 
+  msg, sender= arecv(sender); //in un while? 
+  asend(sender, ACK);
+}
+
+int cacount(pid_t sender){
+  count = pendingMsg.dequeue(sender).second();
+  return(count);
+}
