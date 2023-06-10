@@ -1,0 +1,9 @@
+a) Quali sono gli interrupt hardware più frequenti e quali le trap (interrupt software) più frequenti?
+
+b) A cosa serve il Translation Lookahead Buffer?
+Il TLB è una cache che tiene in memoria gli indirizzi di memoria virtuale e i corrispettivi in memoria fisica.
+
+c) Quali problemi può porre l'implementazione di un Sistema Operativo con il supporto di memoria virtuale e di
+controller di I/O di tipo DMA?
+
+d) Qual è la complessità computazionale dell'algoritmo del banchiere monovaluta e quella del banchiere multivaluta?
