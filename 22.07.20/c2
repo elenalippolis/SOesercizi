@@ -1,3 +1,5 @@
+//va bene ma non va fatto con db, il prof l'ha implementato con una struttura dati esterna static (L: list of T)
+
 void tsend(msg_t msg, pid_t dest){
   asend(msg, dest);
 }
