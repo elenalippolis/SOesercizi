@@ -1,31 +1,43 @@
 monitor porto {
+  bool molo_free = false;
+  bool park_free = false;
   condition ok2attracca, ok2salpa, ok2scarica;
   int res;
   
   void attracca(capacità){
-    ok2attracca.wait();
-    int res = capacità;
-    while(res > 0){
-      ok2scarica.signal();
+    if(molo_free==false){
+      ok2attracca.wait();
     }
+    molo_free = false;
+    int res = capacità;
+    ok2ancora.signal();
   }
   
   void salpa(){
-    ok2salpa.wait();
+    if(res>0){
+      ok2salpa.wait();
+    }
+    molo_free = true;
     ok2attracca.signal();
   }
   
   void scarica(quantità){
-    ok2scarica.wait();
-    while(res>=0){
-      if(res <= quantità){
+    if(park_free==false){
+       ok2scarica.wait();
+    }
+    park_free = false;
+    while(quantità>res){
         res = 0;
         quantità =- res;
         ok2salpa.signal();
-      } else {
+        ok2ancora.wait();
+      } 
         res -= quantità;
-        quantità=0;
-        ok2scarica.wait();
+        if(res == 0){
+          ok2salpa.signal();
+        }
+        park_free = true;
+        ok2scarica.signal();
       }
     }
   }
