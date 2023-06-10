@@ -4,6 +4,8 @@ si verifica un aumento nel numero dei fault di pagina anziché una diminuzione. 
 prestazioni del sistema.
 Un algoritmo di rimpiazzamento a stack funziona assegnando la priorità alle pagine più recentemente utilizzate, quindi rimuovendo le pagine che sono 
 state meno recentemente utilizzate. 
+Dal momento che l'algoritmo di rimpiazzamento a stack tiene traccia delle pagine utilizzate di recente, ha una migliore capacità di adattarsi
+a modelli di accesso alle pagine e ridurre il numero di fault di pagina.
 
 b) Le password (criptate) nei sistemi UNIX moderni sono memorizzate in un file inaccessibile agli utenti (/etc/shadow).
 Perché?
