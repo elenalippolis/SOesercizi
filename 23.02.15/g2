@@ -1,17 +1,36 @@
 a) Quali operazioni compie un device driver per iniziare una operazione di I/O? Come viene rilevato il completamento dell'operazione di I/O?
-Un device driver per iniziare un'operazione di I/O se usa il meccanismo interrupt-driven I/O manda un interrupt al processore, che 
+Un device driver può usare diversi meccanismi, inclusi interrupt-driven I/O e DMA(Direct Memory Access).
+1. Un device driver per iniziare un'operazione di I/O se usa il meccanismo interrupt-driven I/O manda un interrupt al processore, che 
 smette di eseguire i processi che stava eseguendo ed elabora la richiesta del device driver. Quando termina manda un altro interrupt che 
 segnala la terminazione dell'operazione.
-In caso di DMA (direct memory access) il dispositivo ha direttamente accesso alla memoria grazie ad un'interfaccia personalizzata e non passa attraverso la
-CPU.
+2. In caso di DMA il dispositivo ha direttamente accesso alla memoria grazie ad un'interfaccia dedicata e non passa attraverso la
+CPU. Il device driver configura il DMA controller per specificare l'area di memoria coinvolta nell'operazione di I/O e i dettagli dell'operazione.
+Una volta configurato, il dispositivo può trasferire i dati direttamente nella memoria senza richiedere ulteriori interventi
+della CPU. Quando il trasferimento dati è completo, il DMA controller può generare un interrupt per segnalare al processore
+che l'operazione di I/O è terminata.
 
 b) In un sistema a memoria virtuale un interrupt di tipo TLB-miss indica sempre la mancanza di una pagina in memoria (page miss)?
-No. TLB sta per Table LookAside Buffer (?); un TLB miss indica la mancanza della pagina di memoria nella TLB, che viene copiata velocemente dalla memoria e 
-utilizzata. Mentre un page miss è un'operazione che richiede molto più tempo per essere "sistemata" in quanto bisogna recuperare la pagina dalla memoria
-secondaria, che richiede molto più tempo
+No. TLB sta per Translation LookAside Buffer; un TLB miss indica la mancanza della pagina di memoria nella TLB, che è una cache utilizzata per memorizzare la traduzioni
+degli indirizzi virtuali in indirizzi fisici. Quando un processo richiede l'accesso a una pagina di memoria virtuale e la corrispondente traduzione
+non è presente nel TLB, si verifica un TLB-miss, che non indica che la pagina non è nella memoria fisica o che si verifica un page miss. Significa che 
+la traduzione di quella pagina specifica non è persente nel TLB, ma potrebbe essere presente nella memoria fisica.
+Mentre un page miss è un'operazione che richiede molto più tempo per essere "sistemata" in quanto significa che la pagina non è presente nella memoria fisica
+e bisogna recuperare la pagina dalla memoria secondaria, che richiede molto più tempo.
 
 c) Quali sono le metodologie che si possono utilizzare per minimizzare i rischi di attacco tramite worm?
 Tenendo aggiornato il dispositivo che si connette in rete, quindi aggiornando il sistema e le "definizioni" dei worm. I dispositivi più attaccati da worm sono ad
 esempio le televisioni in quanto non mantengono questo tipo di aggiornamento del sistema e delle definizioni di malware.
 
 d) Confrontare l'allocazione concatenata e l'allocazione indicizzata nei file system. Quali sono i pro e i contro dei due metodi?
+L'allocazione concatenata e l'allocazione indicizzata sono due metodi utilizzati per gestire l'allocazione dello spazio dei file all'interno di un file system
+1. Allocazione concatenata: i blocchi dati di un file vengono collegati in una catena, in modo che ogni blocco contenga un puntatore al successivo.
+- Consente flessibilità nell'allocazione dello spazio (i blocchi possono essere aggiunti e rimossi facilmente)
+- Efficiente per file di piccole dimensioni
+- Può portare a una frammentazione del disco (blocchi di un file sparsi in diverse posizioni del disco)
+- Tempi lunghi di accesso per la ricerca dei blocchi
+- Meno efficiente per file di grandi dimensioni (tempo proporzionale alla lunghezza del file per accedere a un blocco)
+2. Allocazione indicizzata: viene utilizzata una tabella di indice separata per tenere traccia dei blocchi di un file.
+Ogni file ha un indice che contiene i puntatori ai blocchi di dati; accesso diretto senza catena di puntatori.
+- Efficace per file di grandi dimensioni (accesso ai blocchi rapido e indipendente dalla dimensione del file)
+- Struttura di indici aggiuntiva per ogni file, spazio aggiuntivo su disco
+- Meno efficiente per file di piccole dimensioni
