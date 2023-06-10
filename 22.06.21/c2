@@ -1,0 +1,23 @@
+queue <server, result> q;
+msg res;
+
+dispatcher:
+  while(true){
+    client, request = arecv(ANY);
+    asend(request, server);
+    if(q.found(server)){
+      res = q.dequeue(server).second();
+    } else {
+    bool ctrl = false;
+    while(ctrl==false){
+      server2, result=arecv(ANY);
+      if(server2 == server){
+        res = result;
+        ctrl=true;
+      } else {
+        q.enqueue(server, result);
+      }
+    }
+    }
+    asend(res, client);
+  }
