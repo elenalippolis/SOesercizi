@@ -1,9 +1,30 @@
 a) Quali sono gli interrupt hardware più frequenti e quali le trap (interrupt software) più frequenti?
+1. interrupt hardware:
+  - timer interrupt, per gestione del tempo e programmazione dei processi
+  - interrupt di dispositivo I/O, 
+  - interrupt di errore di hardware
+  - interrupt di interrupt controller, per segnalare la disponibilità di ulteriori interrupt da gestire
+2. trap
+  - system call trap
+  - trap di gestione delle eccezioni
+  - trap di gestione delle interruzioni
+  - trap di gestione degli errori
 
 b) A cosa serve il Translation Lookahead Buffer?
-Il TLB è una cache che tiene in memoria gli indirizzi di memoria virtuale e i corrispettivi in memoria fisica.
+Il TLB è una componente di un sistema di memoria virtuale  utilizzato per migliorare le prestazioni dell'accesso alla memoria.
+Il TLB è una cache che tiene in memoria le traduzioni degli indirizzi virtuali ai corrispondenti indirizzi fisici della pagina.
 
 c) Quali problemi può porre l'implementazione di un Sistema Operativo con il supporto di memoria virtuale e di
 controller di I/O di tipo DMA?
+1. La CPU e i dispositivi di I/O possono accedere alla stessa area di memoria contemporaneamente; è necessario gestire la coerenza dei dati
+2. In caso di memoria virtuale, bisogna proteggere le regioni di memoria riservate al sistema operativo o processi non autorizzati
+3. Con il DMA, i dispositivi I/O possono trasferire dati in modo asincrono rispetto alla CPU; è necessario sincronizzare
+gli accessi in memoria tra la CPU e i dispositivi
+4. ci possono essere errori di trasferimento dati (errore di parità o trasferimenti incompleti.
 
 d) Qual è la complessità computazionale dell'algoritmo del banchiere monovaluta e quella del banchiere multivaluta?
+1. banchiere monovaluta: si assume che ogni processo richieda una sola risorsa alla volta. La complessità dipende dal
+numero dei processi (n) e quello delle risorse (m) nel sistema. La complessità è O(n*m^2), poiché per ogni processo è
+necessario simulare m possibili allocazioni delle risorse e verificare la loro validità.
+2. banchiere multivaluta: ogni processo può richiedere più di una risorsa alla volta. La complessità  può essere
+nell'ordine O(n^2 * m^2)
