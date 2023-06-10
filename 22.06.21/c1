@@ -1,0 +1,28 @@
+monitor collocamento{
+  queue <c, char *, char*> pendingW; //lavoratori in attesa
+  queue<c, char*> pendingA; //persone che assumono in attesa
+  
+  void cercoLavoro(char * nome, char* skill){
+    condition c = new condition;
+    pendingW.enqueue(c, nome, skill);
+    
+    if(pendingA.found(skill){   //se nella coda pendingA trovo qualcuno che cerca la mia stessa skill
+      l = pendingA.found(skill).dequeue().first(); //faccio dequeue di quella combinazione <l, skill> e restituisco solo la prima
+      l.signal();
+    }
+    
+    c.wait();
+  }
+  
+  char* assumo(char* skill){
+    if(!pendingW.found(skill)){
+      condition l = new condition;
+      pendingA.enqueue(<l, skill>;
+      l.wait();
+    }
+    c, nome = pendingW.found(skill).dequeue(); //restituisce nome e condition dell'elemento che ha skill
+    c.signal();
+    return nome;
+    }
+  }
+}
