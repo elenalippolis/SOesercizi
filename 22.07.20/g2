@@ -1,0 +1,14 @@
+a) Perché un algoritmo di rimpiazzamento a stack non può essere soggetto ad anomalia di Belady?
+Perché in un algoritmo di rimpiazzamento a stack il primo processo che entra è anche il primo che esce dallo stack in caso di 
+rimpiazzamento, quindi non dovrebbe verificarsi l'anomalia di Belady in cui il processore non riesce ad eseguire i processi in quanto
+spreca tutto il tempo di esecuzione ad andare tra la memoria fisica e virtuale.
+
+b) Le password (criptate) nei sistemi UNIX moderni sono memorizzate in un file inaccessibile agli utenti (/etc/shadow).
+Perché?
+Perché sennò sarebbero accessibili anche agli utenti malintenzionati
+
+c) Nello scheduler di tipo Shortest Remaining TIme First (versione preemptive di STF: Shortest time first), il tempo
+residuo può diventare negativo. Perché?
+
+d) Quando si usano i dischi a stato solido i file system vengono configurati in modo da non aggiornare il tempo di
+ultimo accesso ai file (noatime). Perché?
