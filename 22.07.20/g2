@@ -22,6 +22,10 @@ l'altro viene eseguito.
 Il tempo residuo di un processo è la stima del tempo rimanente per completare l'esecuzione. Se un processo viene preempted prima di completare il proprio tempo
 residuo, il suo tempo residuo può diventare negativo. Ciò significa che il sistema ha ritenuto che il processo richieda meno tempo di quanto effettivamente ne ha
 bisogno.
+ALTRA RISPOSTA:
+ Nello scheduler di tipo SRTF il tempo residuo può diventare negativo per una sottostima del tempo di completamento del processo. Si
+verifica quando l’algoritmo sottostima la quantità di tempo necessaria per completare il processo corrente e lo scheduler passa ad un altro
+processo prima che il processo corrente sia effettivamente completato
 
 d) Quando si usano i dischi a stato solido i file system vengono configurati in modo da non aggiornare il tempo di
 ultimo accesso ai file (noatime). Perché?
