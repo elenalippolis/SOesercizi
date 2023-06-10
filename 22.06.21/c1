@@ -1,3 +1,5 @@
+//data la quantità di parametri in effetti meglio una struct di due code, però non penso sia sbagliata la mia
+
 monitor collocamento{
   queue <c, char *, char*> pendingW; //lavoratori in attesa
   queue<c, char*> pendingA; //persone che assumono in attesa
