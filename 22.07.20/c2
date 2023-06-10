@@ -1,0 +1,17 @@
+void tsend(msg_t msg, pid_t dest){
+  asend(msg, dest);
+}
+
+msg_t trecv(){
+  bool 2msg = false;
+  while(2msg==false){
+    msg = arecv(ANY);
+    if(db.found(msg){
+      db.remove(msg);
+      2msg=true;
+    } else {
+      db.add(msg);
+    }
+  }
+  return(msg);
+}
