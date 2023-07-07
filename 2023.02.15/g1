@@ -1,0 +1,21 @@
+Esercizio g.1:  Sia dato un sistema monoprocessore con una unita' di I/O. La CPU viene gestita tramite uno
+scheduler preemptive a priorita' statica. L'accesso all'unita' di I/O avviene con politica FIFO.
+Esistono nel sistema tre tipi di processi periodici (che vengono riattivati allo scadere di ogni periodo).
+P1: priorita' massima. 2ms CPU, 2ms I/O, periodo=4ms
+P2: priorita' media: 2ms CPU, 2ms I/O, periodo=8ms
+P3: priorita' minima: 4ms CPU, 2ms I/O, 4ms CPU, 2ms I/O, periodo=x
+Trovare per quali valori di x e' possibile calcolare uno schedule di durata infinita (o meglio indefinita) anche e produrre
+il diagramma di Gannt della soluzione con il minimo valore di x. Spiegare il procedimento seguito per trovare la
+soluzione. (non è detto che i processi inizino il primo periodo al tempo zero).
+
+scheduler preemptivea apriorità statica
+P1: priorita' massima. 2ms CPU, 2ms I/O, periodo=4ms
+P2: priorita' media: 2ms CPU, 2ms I/O, periodo=8ms
+P3: priorita' minima: 4ms CPU, 2ms I/O, 4ms CPU, 2ms I/O, periodo=x
+per quale x scheduler di durata infinita? (val minimo)
+
+tmp 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33
+cpu P1 P1 P2 P2 P1 P1 P3 P3 P1 P1 P2 P2 P1 P1 P3 P3 P1 P1 P2 P2 P1 P1 P3 P3 P1 P1 P2 P2 P1 P1 P3 P3
+i/o       P1 P1 P2 P2 P1 P1       P1 P1 P2 P2 P1 P1 P3 P3 P1 P1 P2 P2 P1 P1       P1 P1 P2 P2 P1 P1 P3 P3
+
+MINIMO PERIODO: 32ms
