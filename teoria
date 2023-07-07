@@ -1,0 +1,14 @@
+1. La libreria C fornisce delle funzioni che consentono di richiedere system call (per esempio open, read, ecc.). 
+Come sono realizzate queste funzioni? Come vengono passati i parametri e il valore di ritorno delle system call?
+I parametri sono in registri della CPU. 
+In un altro registro di vede il valore della system call
+
+2. Dati 4 dischi da 1GB, si possono memorizzare più dati usando una organizzazione RAID!= o RAID5? perché?
+RAID5 memorizza 3 dischi, RAID10 solo 2.
+
+3. Dimostrare che se un algoritmo di rimpiazzamento è a stack allora non può soffrire dell'anomalia di Belady.
+Se è a stack per ogni frame se ne aggiugne 1, diventa un sottoinsieme. Non può mai avere page fault.
+
+4. L'algoritmo del Banchiere evita che si verifichino situazioni di deadlock. Sembra una funzione desiderabile,
+eppure viene raramente usato nei sistemi reali, perché?
+I processi danno a priori la quantità massima di risorse da utilizzare.
