@@ -1,0 +1,70 @@
+monitor rb{
+  float media = 0.0;
+  float lastval= 0.0;
+  int nred = 0;
+  int nblack = 0;
+  condition waiting;
+
+  //se non ci sono processi red in attesa, uso waiting come coda per i neri, e attendo che arrivino processi rossi
+  //sennò waiting viene usata per i processi rossi, ne sveglia uno (FIFO) e restituisce la media
+  procedure entry float meanblack(float v){
+    if(nred==0){
+      nblack++;
+      waiting.wait();
+      result =(lastVal+v)/2);
+      nblack--;
+    } else {
+      lastVal = v;
+      waiting.signal();
+    }
+    return result;
+  }
+
+  procedure entry float meanred(float v){
+    if(nblack==0){
+      nred++;
+      waiting.wait();
+      result = (lastVal+v)/2);
+      nred--;
+    } else {
+      lastVal=v;
+      waiting.signal();
+    }
+    return result;
+  }
+}
+
+
+
+----------------------
+
+
+soluzione vista in classe:
+
+monitor rb{
+  
+  def entry meanblack(float v){
+    nb ++;
+    rv = meanf(f);
+    nb--;
+    return rv;
+  }
+
+  def entry meanred(float v){
+    nr ++;
+    rv = meanf(f);
+    nr--;
+    return rv;
+  }
+
+  def float meanf(float f){
+    if(nr==0 || nb==0){
+      c.wait();
+      result = (f + other)/2;
+    } else {
+      other = f;
+      c.signal();
+    }
+    return result;
+  }
+}
