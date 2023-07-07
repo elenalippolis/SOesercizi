@@ -12,3 +12,14 @@ Se è a stack per ogni frame se ne aggiugne 1, diventa un sottoinsieme. Non può
 4. L'algoritmo del Banchiere evita che si verifichino situazioni di deadlock. Sembra una funzione desiderabile,
 eppure viene raramente usato nei sistemi reali, perché?
 I processi danno a priori la quantità massima di risorse da utilizzare.
+
+5. quali operazioni compie un device driver per iniziare un'operazione di I/O? 
+Come viene rilevato il completamento dell'operazione di I/O?
+
+6. In un sistema a memoria virtuale un interrupt di tipo TLB-miss indica sempre la mancanza di una pagina
+in memoria (page miss)?
+
+7. Quali sono le metodologie che si possono utilizzare per minimizzare i rischi di attacco tramite worm?
+
+8. confrontare l'allocazione concatenata e l'allocazione indicizzata nei file system. Quali sono i pro e 
+i contro dei due metodi?
