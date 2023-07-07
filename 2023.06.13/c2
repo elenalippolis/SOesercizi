@@ -1,0 +1,19 @@
+correzione prof
+
+void nbl_send(msg_t m, pid_t dest){
+  asend(<getPid(), m>, dest);
+}
+
+list of msg_t nbl_receive(pid_t sender){
+  asend(<getPid(), TAG>, getPid());
+
+  while(True){
+    s, m = arecv(ANY);
+    if(s==getPid() && m == TAG){
+      break;
+    } else {
+      db.add(<s, m>);
+  }
+}
+return dbGet(sender);
+}
