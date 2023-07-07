@@ -1,7 +1,0 @@
-
-tmp: 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 16 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33
-CPU: P1 P1 P2 P2 P1 P1 P3 P3 P1 P1 P2 P2 P1 P1 P3 P3 P1 P1 P2 P2 P1 P1 P3 P3 P1 P1 P2 P2 P1 P1 P3 P3 P1 P1
-IO:        P1 P1 P2 P2 P1 P1       P1 P1 P2 P2 P1 P1 P3 P3 P1 P1 P2 P2 P1 P1       P1 P1 P2 P2 P1 P1 P3 P3
-
-P3 si attiva al ms 6, 14, 22 e 30, quindi ogni 16 ms completa un'operazione della CPU, ma dovendone eseguire 2 il 
-risultato è x >= 32
