@@ -1,0 +1,28 @@
+c2 soluzione trovata
+
+//la get prevede già la coppia venga eliminata se viene trovata (nella carecev)
+//(altrimenti andrebbe eliminata la coppia nella riga prima della return (dopo il corpo del while)
+
+getall():
+    asend(getpid(), (getpid(), TAG));
+    while true :
+        (s,m) = arecv(ANY)
+        if (m == TAG && s == getpid())
+            break
+        db.add(s, m)
+
+void casend(pid_t dest, T msg):
+    asend(dest, (getpid(), msg))
+
+T carecv(pid_t sender):
+    getall()
+    while ((m = db.get(sender)) == NULL) {
+        (s, m) = arecv(ANY)
+        db.add(s, m)
+    }
+    db.remove(<s, m>);
+    return m;
+
+int cacount(pid_t sender):
+    getall()
+    return db.count(sender)
