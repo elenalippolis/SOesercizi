@@ -1,0 +1,19 @@
+monitor bitcond{
+  bit = 0;
+  condition ok2set;
+
+  void set(int bit2set){
+    bit|=bit2set;
+    ok2set.signal();
+  }
+
+  void unset(int bit2unset){
+    bit &! bit2unset;
+  }
+
+  void statusWait(int bit2wait){
+    while(bit!=bit2wait){
+      ok2set.wait();
+    }
+  }
+}
