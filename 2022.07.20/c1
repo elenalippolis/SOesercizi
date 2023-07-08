@@ -1,0 +1,44 @@
+monitor porto{
+  condition ok2attracca, ok2salpa, ok2arriva, ok2parti;
+  bool portoFree, parkFree;
+  int carico;
+
+  void attracca(capacità){
+    int res = capacità;
+    if(!portoFree){
+      ok2attracca.wait()
+    }
+    portoFree=false;
+    while(res>0){
+       if(res-carico>0){
+        res -= carico;
+        carico = 0;
+        ok2parti.signal();
+       } else if(carico == res){
+         res = 0;
+        carico = 0;
+    } else {
+        carico -= res;
+         res = 0;
+       }   
+  }
+    ok2salpa.signal();
+}
+
+  void salpa(){
+    ok2salpa.wait();
+    portoFree=true;
+    ok2attracca.signal();
+  }
+
+  void scarica(quantità){
+    if(!parkFree){
+      ok2arriva.wait();
+    }
+    parkFree=false;
+    carico+=quantità;
+    ok2parti.wait();
+    parkfree=true;
+    ok2arriva.signal();
+  }
+}
