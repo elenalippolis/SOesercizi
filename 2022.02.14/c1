@@ -1,0 +1,17 @@
+monitor semdata{
+  stack waitingProc;
+  condition c;
+
+  datatype dP(){
+    if(waitingProc.isEmpty()){
+      c.wait();
+    }
+    d = waitingProc.pop();
+    return d;
+  }
+
+  void dV(datatype data){
+    waitingProc.push(data);
+    c.signal();
+  }
+}
