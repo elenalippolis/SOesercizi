@@ -56,3 +56,13 @@ ultimo accesso ai file (noatime). Perché?
 20. Perché può essere difficoltoso revocare le capability di accesso a risorse?
 
 21. Qual è la differenza fra una funzione di libreria (e.g. sprintf) e una system call (e.g. write).
+
+22. Come si calcola la lunghezza massima di un file in un FIle System tipo UNIX (bffs, ext2, minix ecc)?
+
+23. Come si fa a risolvere una situazione di deadlock?
+
+24. Perché è meglio la paginazione della compattazione di memoria?
+
+25. Per implementare un servizio di autorizzazione di tipo capability è meglio usare crittografia simmetrica o crittografia
+a chiave pubblica? perché? E' necessario usare un metodo specifico (crittografia simmetrica o crittografia a chiave
+pubblica) o il servizio di autorizzazione potrebbe essere implementato con entrambi?
