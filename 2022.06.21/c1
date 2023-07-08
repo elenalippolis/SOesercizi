@@ -1,0 +1,24 @@
+monitor collocalmento{
+  lista waitingLav, waitingDat;
+
+  void cercolavoro(char *nome, char *skill){
+    if(!waitingDat.found(skill)){
+      condition l = new condition;
+      waitingLav.add(<nome, skill, l>);
+      l.wait();
+    }
+    c = waitingDat.delete(skill);
+    c.signal();
+  }
+
+  char *assumo(char *skill){
+    if(!waitingLav.found(skill){
+      condition c = new condition;
+      waitingDat.add(<skill, c>);
+      c.wait();
+    }
+    n, l = waitingLav.delete(skill);
+    l.signal();
+  }
+}
+
