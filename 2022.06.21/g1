@@ -1,0 +1,16 @@
+Esercizio g.1: Un sistema monoprocessore usa uno scheduler multilivello a 2 livelli. I processi ad alto livello di priorità
+vengono gestiti con un algoritmo FIFO mentre quelli a basso livello di priorità usano un algoritmo round-robin con
+quanto di tempo di 3ms.
+Esistono nel sistema due processi periodici ad alto livello di priorità (chiamati h e k) che vengono riattivati ogni 6ms,
+elaborano per 1ms e terminano. Ci sono inoltre 2 processi a basso livello di priorità (che chiameremo P e Q) che devono
+fare le seguenti operazioni:
+P:: elaborazione 4ms, input-output 2ms, elaborazione 2ms, input-output 1ms, elaborazione 5ms
+Q:: elaborazione 5ms, input-output 3ms, elaborazione 2ms, input-output 1ms, elaborazione 4ms
+Mostrare il diagramma di Gannt spiegando come è stato calcolato.
+
+alto livello: FIFO, h k ogni 6 ms, 1ms cpu
+basso livello: RR, t.q. 3ms; p q
+
+tmp 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 
+cpu h  k  p  p  p  q  h  k  q  q  p  q  h  k  q  p  p     h  k  q  q  p  p  h  k  q  q  q  p  h  k  p  p  q
+i/o                                  p  p        q  q  q  p           q
