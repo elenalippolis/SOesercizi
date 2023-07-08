@@ -66,3 +66,14 @@ ultimo accesso ai file (noatime). Perché?
 25. Per implementare un servizio di autorizzazione di tipo capability è meglio usare crittografia simmetrica o crittografia
 a chiave pubblica? perché? E' necessario usare un metodo specifico (crittografia simmetrica o crittografia a chiave
 pubblica) o il servizio di autorizzazione potrebbe essere implementato con entrambi?
+
+26. Perché viene usata la paginazione per implementare la memoria virtuale?
+
+27. L'algoritmo del banchiere dato uno stato di allocazione delle risorse restituisce un valore binario: safe o non safe.
+In quali casi il sistema operativo esegue l'algoritmo del banchiere? Cosa succede se il risultato è safe e cosa se il
+risultato è non-safe?
+
+28 Fornire esempi di file system con allocazione contigua, e spiegare perché sarebbe inefficiente usare altri metodi di
+allocazione nei casi d'uso tipici di questi file system.
+
+29. perché l'invenzione degli interrupt ha reso i sistemi operativi più efficienti?
