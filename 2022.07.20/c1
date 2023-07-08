@@ -1,7 +1,8 @@
 monitor porto{
   condition ok2attracca, ok2salpa, ok2arriva, ok2parti;
-  bool portoFree, parkFree;
-  int carico;
+  bool portoFree=true;
+  bool parkFree = true;
+  int carico = 0;
 
   void attracca(capacità){
     int res = capacità;
