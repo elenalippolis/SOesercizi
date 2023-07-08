@@ -1,0 +1,35 @@
+void snsend(msg_t msg, pid dest){
+  asend(<getpid(), msg>, dest);
+  ACK = arecv(dest);
+}
+
+msg_t snrecv(pid sender, int n){
+  while(true){
+    s, m = arecv(ANY);
+    db.add(s, m);
+    if(sender==ANY){
+      if(db.length>=n){
+        if(n==0){
+          ss, mex = db.getLast();
+          asend(ACK, ss);
+          return mex;
+        } else {
+          ss, mex = db.get(n);
+          asend(ACK, ss);
+          return mex;
+        }
+      }
+    } else {
+      if(db.sortBy(s).length>=n){
+        if(n==0){
+          asend(ACK, s);
+          return(db.getLast());
+        } else {
+          mex = db.sortBy(s).get(n);
+          asend(ACK, s);
+          return mex;
+        }
+      }
+    }
+  }
+}
