@@ -1,0 +1,30 @@
+Esercizio g.1: Siano dati due processi in esecuzione in un sistema monoprocessore e gestiti da uno scheduler roundrobin.
+I due processi sono gli unici nel sistema e usano la stessa unità di I/O gestita in modo FIFO.
+PA: 1ms CPU, 2ms I/O, 1ms CPU, 8ms I/O, 1ms CPU
+PB: 2ms CPU, 1ms I/O, 8ms CPU, 1ms I/O, 1ms CPU
+Quale è il tempo minimo e quale il tempo massimo impiegato dal sistema per completare l’elaborazione dei due
+processi al variare della lunghezza del quanto di tempo e della posizione iniziale dei processi nella ready queue (PA
+precede PB o viceversa).
+
+minimo e max tempo impiegato al variare del time quantum e della pos iniziale?
+
+t.q. = 1ms - 2 ms - 6 ms, inizia PA
+
+tmp 0  1  2  3  4  5  6  7  8  9  10 11 12 13
+cpu PA PB PB PA PB PB PB PB PB PB PB PB PA PB
+i/o    PA PA PB PA PA PA PA PA PA PA PA PB
+
+t.q = 1ms, inizia PB
+
+tmp 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14
+cpu PB PA PB    PA PB PB PB PB PB PB PB PB PA PB
+i/o       PA PA PB PA PA PA PA PA PA PA PA PB
+
+t.q. = 2 ms - 6 ms, inizia PB
+
+tmp 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20
+cpu PB PB PA PB PB PB PB PB PB PB PB PA PB                      PA
+i/o       PB PA PA                   PB PA PA PA PA PA PA PA PA
+
+tempo impiegato minimo: 13 ms, con t.q.>1ms e inizia PA
+tempo impiegato massimo: 20 ms, con t.q.>2ms e inizia PB
