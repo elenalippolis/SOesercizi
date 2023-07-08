@@ -38,6 +38,21 @@ C?
 
 14. Come si calcola la lunghezza massima di un file in un file system di tipo UNIX?
 
-15. Perché può essere difficoltoso revocare le capability di accesso a risorse?
+15. Fornire un elenco di incongruenze che possono venir rilevate dal fsck (file system check) applicato a file
+system di tipo UNIX (e.g. ext2, bffs). Per ogni tipo di incongruenza indicare come viene riscontrata e con quali
+operazioni il fsck può ripristinare la coerenza.
 
-16. Qual è la differenza fra una funzione di libreria (e.g. sprintf) e una system call (e.g. write).
+16. Perché un algoritmo di rimpiazzamento a stack non può essere soggetto ad anomalia di Belady?
+
+17. Le password (criptate) nei sistemi UNIX moderni sono memorizzate in un file inaccessibile agli utenti (/etc/shadow).
+Perché?
+
+18. Nello scheduler di tipo Shortest Remaining TIme First (versione preemptive di STF: Shortest time first), il tempo
+residuo può diventare negativo. Perché?
+
+19. Quando si usano i dischi a stato solido i file system vengono configurati in modo da non aggiornare il tempo di
+ultimo accesso ai file (noatime). Perché?
+
+20. Perché può essere difficoltoso revocare le capability di accesso a risorse?
+
+21. Qual è la differenza fra una funzione di libreria (e.g. sprintf) e una system call (e.g. write).
