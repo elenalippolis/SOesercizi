@@ -1,0 +1,17 @@
+Esercizio g.1: Considerare i seguenti processi gestiti mediante uno scheduler preemptive a priorità statica su una
+macchina biprocessore SMP:
+P1: cpu 4 ms; I-O 4 ms; cpu 2 ms  MIN
+P2: cpu 2 ms; I-O 4 ms; cpu 5 ms
+(P3: cpu 5 ms; I-O 3 ms; cpu 3 ms  MAX)
+(P4: cpu 10 ms; I-O 1 ms)
+l'Input-Output avviene su un'unica unità. Per il processo P1 ha priorità minima seguito da P2, P3 e P4 in sequenza
+crescente, le richieste di I/O sono gestite in ordine FIFO. Calcolare il tempo necessario a completare l'esecuzione dei 4
+processi. Indicare con chiarezza i punti dello schedule nei quali avviene la preemption.
+
+tmp 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 
+cpu P4 P4 P4 P4 P4 P4 P4 P4 P4 P4 P1 P1 P1             P1 P1
+cpu P3 P3 P3 P3 P3 P2 P2 P1 P3 P3 P3    P2 P2 P2 P2 P2
+i/o                P3 P3 P3 P2 P2 P2 P2 P4 P1 P1 P1 P1
+
+TEMPO: 18ms
+preemption: tmp 10
