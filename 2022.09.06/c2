@@ -1,0 +1,22 @@
+int sum = 0;
+semaphore mutex = new semaphore(1);
+semaphore sem = new semaphore(0);
+Queue <int> waiting = new Queue();
+
+void sumstop (int v){
+  mutex.P();
+  waiting.enqueue(<v>);
+  mutex.V()
+  sem.P();
+}
+
+int sumgo(int v){
+  mutex.P();
+    while(!waiting.isEmpty()){
+      v = waiting.dequeue();
+      sum+=v;
+      sem.V();
+      mutex.V();
+    }
+   return sum;
+}
