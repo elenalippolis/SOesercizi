@@ -1,0 +1,24 @@
+Esercizio g.1: Sia dato questo programma:
+
+ Program P:
+ for (i=0;i<2;i++) {
+ long_compute();
+ io();
+ }
+ short_compute();
+
+long compute impiega 5 ms, short compute 2 ms e io impiega 4 ms. Il programma usa un device condiviso gestito in
+modalità FIFO.
+Considerando in un sistema di elaborazione biprocessore dove sono in esecuzione quattro istanze del programma P
+che sono state attivate ai tempi 0, 2ms, 4ms e 7ms e che il sistema usa uno scheduler round robin per l'accesso alla CPU disegnare il
+diagramma di Gannt dell'esecuzione e spiegarne i passaggi. (time slice=3 ms)
+
+4 istanze di P ai tempi 0, 2ms, 4ms e 7ms
+time slice = 3 ms
+long, io, long, io, short (x4)
+5 ms  2   5 ms  2  4 ms
+
+tmp 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29
+cpu l1 l1 l1 l1 l3 l3 l3 l4 l4 l4 l1 l1 l1 l3 l3 l3 l1 l1 l2 l2 l4 l4 s2 s2 s2 s4 s4 s4 s3
+cpu       l2 l2 l2 l1 l2 l2 l3 l3 l4 l4 l2 l2 l2 l4 l4 l4 l3 l3 s1 s1 s1 s1 s3 s3 s3 s1 s2 s4
+i/o                   i1 i1 i2 i2 i3 i3 i4 i4             i1 i1 i2 i2 i3 i3 i4 i4
