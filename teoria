@@ -32,3 +32,12 @@ i contro dei due metodi?
 controller di I/O di tipo DMA?
 
 12. Qual è la complessità computazionale dell'algoritmo del banchiere monovaluta e quella del banchiere multivaluta?
+
+13. Perché il compilatore C è scritto in C? Come si fa a compilare il compilatore C se per compilarlo occorre il compilatore
+C?
+
+14. Come si calcola la lunghezza massima di un file in un file system di tipo UNIX?
+
+15. Perché può essere difficoltoso revocare le capability di accesso a risorse?
+
+16. Qual è la differenza fra una funzione di libreria (e.g. sprintf) e una system call (e.g. write).
