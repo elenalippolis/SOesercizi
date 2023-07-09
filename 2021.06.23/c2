@@ -1,0 +1,38 @@
+/*
+Esercizio c.2: Implementare usando semafori ordinari (fair, fifo) un servizio di semafori a priorità lifo che
+fornisca le seguenti primitive:
+ void PLP(int prio);
+ void PLV()
+PLP e PLV si devono comportare rispettivamente come P e V. Quando la PLV deve riattivare un processo
+sceglie fra quelli in attesa quello a priorità massima, nel caso siano presenti più processi a priorità massima
+sceglie quello in attesa da meno tempo. 
+*/
+
+//fifo -> lifo
+stack <sem, int> waitingProc;
+semaphore mutex(1);
+int numV;
+
+void PLP(int prio){
+  if (num_V > 0) {
+        num_V--;
+        mutex.V();
+        return;
+    }
+  semaphore(0) sem = new semaphore;
+  mutex.P();
+  waitingProc.push(<sem, prio>);
+  mutex.V();
+  sem.P();
+}
+
+//sceglie di riattivare il proc in attesa a prio max, se ce ne sono di più sceglie l'ultimo
+void PLV(){
+  mutex.P();
+  orderStack(waitingProc);
+  sem, prio = waitingProc.pop();
+  sem.V();
+
+  numV++;
+  mutex.V();
+}
