@@ -127,3 +127,18 @@ capability? perché? (NB la domanda non fa riferimento alle POSIX capability)
 
 46. Perché con due dischi si preferisce usare RAID1 piuttosto che RAID5? (infatti RAID5 è definito con un
 minimo di 3 dischi).
+
+47. In un sistema ci sono 3 classi di risorse A, B, C e 4 processi p,q,r,s.
+In un determinato istante le tre risorse della classe A sono assegnate a p (due risorse) e a s (1 risorsa), l'unica risorsa
+della classe B è assegnata ad r mentre le due risorse della classe C sono assegnate a q ed a r. Sono pendenti le
+seguenti richieste: p ed s richiedono una risorsa della classe C e q chiede una risorsa della classe A.
+Lo stato così determinato è di deadock? Mostrare il procedimento usato per ottenere la risposta.
+
+48.  perché uno scheduler round-robin può essere inadatto a gestire processi con I/O multimediale?
+
+49. per risolvere un problema di trashing è necessario terminare forzatamente dei processi o è sufficiente bloccare
+l'esecuzione di qualche processo e riattivarli successivamente? Perché?
+50.  Con lo stesso numero di dischi, RAID1 o RAID5 consente di memorizzare più dati? Perché? Quale è più sicuro?
+Perché?
+
+51. Perché è difficile revocare una autorizzazione fornita tramite una capability?
