@@ -77,3 +77,20 @@ risultato è non-safe?
 allocazione nei casi d'uso tipici di questi file system.
 
 29. perché l'invenzione degli interrupt ha reso i sistemi operativi più efficienti?
+
+30. Usando l'algoritmo di rimpiazzamento FIFO la stringa di riferimenti 1,2,3,4,1,2,5,1,2,3,4,5 genera più page
+fault con una memoria di 4 frame di quanti ne vengano generati con una memoria di 3 frame (anomalia di Belady)
+i) si generi una stringa di riferimenti che generi più page fault in una memoria di 5 frame rispetto ad una da 4 frame.
+ii) si costruisca una regola generale per costruire stringhe di riferimenti che generino più page fault in una memoria di
+n frame rispetto a quelli generati in una memoria da n - 1 frame 
+
+31. Lo scheduler sceglie fra i processi ready quale porre in esecuzione. Ma cosa succede quando la coda dei processi
+ready è vuota?
+
+32. Quali vantaggi offre RAID5 rispetto a RAID1?
+
+33. Se per effetto di un guasto o di un bug il numero di hard link di un i-node è errato, quali conseguenze possono
+esserci?
+
+34. Quali eventi causano la valutazione dell'algoritmo del banchiere? Cosa si fa se lo stato risulta unsafe e cosa invece se
+è safe?
