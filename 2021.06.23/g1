@@ -3,7 +3,8 @@ Esercizio g.1: Lo scheduler ED è a priorità dinamica, preemptive e gestisce pr
 si riattivano periodicamente, allo scadere di un periodo se ne attiva una nuova istanza). Lo scheduler sceglie
 il processo ready che ha la fine del proprio periodo più prossima. Sono processi che fanno solo calcolo. Ai
 fini di questo esercizio il costo dei context switch sia considerato nullo.
-Si considerino due sistemi. Sistema A: sono presenti 3 processi:
+Si considerino due sistemi. 
+Sistema A: sono presenti 3 processi:
 Processo    Periodo     tempo di elaborazione
 p1           15           5
 p2           20           5
@@ -16,3 +17,20 @@ p3         32      16
 I processi del sistema A sono schedulabili con ED? (si può costruire uno schedule di durata indefinita che
 consenta di eseguire tutti i processi). E i processi del sistema B? 
 */
+
+processo ready che ha la fine del periodo più breve
+preemptive
+
+sistema A a me sembra non sia schedulabile, non riesce a rispettare il periodo (al secondo 30 c e a dovrebbero partire contemporaneamente)
+
+sistema A                                         a             b                             c,a
+tmp 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40
+cpu p1 p1 p1 p1 p1 p2 p2 p2 p2 p2 p3 p3 p3 p3 p3 p3 p1 p1 p1 p1 p1 p2 p2 p2 p2 p2             p1 p1 p1 p1 p1
+
+
+sistemaB  è schedulabile     a                        a    b                 a                        a    b
+tmp  0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34
+cpu  p1 p1 p2 p2 p2 p2 p3 p3 p1 p1 p3 p3 p3 p3 p3 p3 p1 p1 p2 p2 p2 p2 p3 p3 p1 p1 p3 p3 p3 p3 p3 p3
+
+
+
