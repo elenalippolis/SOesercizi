@@ -1,0 +1,34 @@
+/*
+Esercizio c.2: Dato un servizio di message passing sincrono scrivere, senza fare uso di processi server, un servizio di
+message passing sincrono concatenato che abbia le seguenti primitive:
+void chained_send (T msg, list_of_pids dests)
+T chained_recv(void)
+La funzione chained_send deve fare in modo che tutti i processi indicati nella lista dests ricevano il messaggio. Il
+processo che chiama la chained_send si blocca solo fino a quando il primo processo della lista dests non chiama una
+chained_recv, il primo si sblocca quando il secondo chiama la chained_recv e così via.
+( la funzione chained_recv riceve messaggi provenienti da qualsiasi mittente)
+
+MPS -> MPS concatenato
+*/
+//tutti i dests devono ricevere il mex
+//il proc che chiama send si blocca solo finché il primo proc di dests non chiama recv
+//il primo si sblocca quando il secondo chiama la recv, ecc.
+
+void chained_send(T msg, list_of_pids dests){
+
+  ssend(< msg, dests.next>, tmp.val);
+    
+}
+
+//riceve mex da chiunque
+T chained_recv(){
+  m, prossimo = srecv(ANY);
+  
+  if(next!=NULL){
+    tmp = prossimo.next;
+    ssend(<msg, tmp>, next);
+  }
+  
+  return m;
+  
+}
