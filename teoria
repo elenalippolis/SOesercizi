@@ -116,3 +116,14 @@ preferito a LRU?
 
 42. Quali sono le caratteristiche negative dell'uso delle Access Control List per la memorizzazione delle
 informazioni di autorizzazione
+
+43.  perché una situazione di trashing si può risolvere sospendendo l'esecuzione di processi?
+
+44. come fa il sistema operativo a sospendere i processi che sono in attesa del completamento di una
+richiesta di I/O?
+
+45. quale tipo di crittografia è necessaria per implementare un servizio di autorizzazione basato su
+capability? perché? (NB la domanda non fa riferimento alle POSIX capability)
+
+46. Perché con due dischi si preferisce usare RAID1 piuttosto che RAID5? (infatti RAID5 è definito con un
+minimo di 3 dischi).
