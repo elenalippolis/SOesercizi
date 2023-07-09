@@ -105,3 +105,14 @@ spedito codice macchina e che il programma vittima dell'attacco lo eseguisse?
 
 38. Per rendere uno scheduler round-robin più pronto a servire i processi interattivi si decide di dimezzare la durata del
 time slice. Quali effetti collaterali può avere la scelta?
+
+39. perché DMA viene utilizzato per le unità di memoria secondaria (es dischi) e non per terminali?
+
+40. cosa succede in un sistema operativo quando un processo utente tenta di eseguire una operazione
+illegale (es. divisione per zero)? Lo standard POSIX (UNIX) cosa prevede in questo caso?
+
+41.L'algoritmo di rimpiazzamento second chance (detto anche dell'orologio) è a stack? Perché viene
+preferito a LRU?
+
+42. Quali sono le caratteristiche negative dell'uso delle Access Control List per la memorizzazione delle
+informazioni di autorizzazione
