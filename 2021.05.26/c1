@@ -1,0 +1,56 @@
+/*
+Esercizio c.1: Un buffer sincrono strampalato (bss) ha due procedure entry:
+void put(T value)
+list of T get(void)
+La entry put viene utilizzata per aggiungere un elemento e la entry get per leggere tutti quelli disponibili.
+Se più processi chiamano la put quando nessun processo è in attesa per una get, rimangono tutti bloccati.
+Quando successivamente un processo chiama la get riceve la lista di tutti gli elementi inseriti con le put e
+tutti i processi vengono sbloccati.
+Se il buffer è vuoto tutti i processi che chiamano la get rimangono bloccati. quando un processo chiama
+successivamente la put tutti i processi in attesa per la get si sbloccano e ricevono lo stesso valore di ritorno:
+una lista contenente il solo valore passato come parametro alla put. 
+*/
+
+ 
+monitor bss{
+  int nPut, nGet;
+  condition ok2put;
+  condition ok2get;
+  list buffer;
+  //list <condition, val> nput;
+  //list <condition> nget;
+
+  //serve per aggiungere un elemento
+  //if nput>0 && nget==0 -> tutti bloccati
+  //quando nget torna >0 riceve la lista e sblocca tutti
+  void put(T value){
+     nput++;
+    buffer.add(value);
+    if(nget==0){
+      ok2put.wait();
+      nput--;
+    }
+      while(nget>0){
+        ok2get.signal();
+      }
+    
+  }
+
+  //legge tutti gli elem disponibili
+  //se buffer è vuoto (nP==0) e nget>0, nGet bloccati
+  //quando nput torna >0, i proc in get si sbloccano e ricevono la lista con l'elem della put
+  list of T get(){
+    nget++;
+    list of T tmp;
+    if(nput==0){
+      ok2get.wait();
+      nget--;
+    }
+    while(nput>0){
+      val=buffer.remove();
+      tmp.add(val);
+      ok2put.signal();
+    }
+    return tmp;
+  }
+}
