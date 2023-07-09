@@ -1,0 +1,33 @@
+/*
+Esercizio c.1: Scrivere il monitor delayvalue con una sola procedure entry:
+int delay(int value);
+Il monitor deve sospendere i primi NDELAY processi che chiamano la delay. Le successive chiamate di delay
+devono mantenere costante il numero di processi sospesi, ogni successiva chiamata devo riattivare il primo
+processo in attesa prima di sospendersi, la delay ritorna il valore passato come parametro dal processo che
+ne ha riattivato l'esecuzione. e.g. se NDELAY è 2:
+P1: delay(44) -> P1 si sospende
+P2: delay(40) -> P2 si sospende
+P3: delay(42) -> P1 si riattiva e ritorna 42, P3 si sospende
+P4: delay(22) -> P2 si riattiva e ritorna 22, P4 si sospende
+*/
+
+//sospendo i primi NDELAY, dopo quando ne attivo uno sospendo quello dopo
+//ogni chiamata riattiva il primo in attesa e poi si sospende
+monitor delayvalue{
+  int NDELAY;
+  int risv;
+  Queue <condition, int> waitingProc = new Queue();
+
+  //ritorna val del processo che ha riattivato l'esecuzione
+  procedure entry int delay(int value){
+    risv = val;
+    if(waitingProc.length>NDELAY){
+      cond, val = waitingProc.dequeue();
+      cond.signal();
+    } 
+    condition c = new condition;
+    waitingProc.enqueue(<c, value>);
+    c.wait();
+  }
+  return risv;
+}
