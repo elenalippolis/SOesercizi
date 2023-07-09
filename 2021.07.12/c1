@@ -1,0 +1,59 @@
+/*
+Esercizio c.1: La fase finale di un torneo sportivo coinvolge 2^N squadre numerate 0, 1 ,... , 2^N−1 e si svolge ad
+eliminazione diretta. Al primo turno la squadra 0 gioca con la squadra 1, la 2 con la 3 e così via. Al secondo turno la
+vincente fra le squadre 0 e 1 incontra la vincente fra 2, 3 ecc. Il procedimento continua fino ad individuare la sola
+squadra vincente del torneo. Scrivere il monitor torneo. L'attività delle squadre è la seguente:
+
+ Squadra: process( i,i∈{0, 1 ,..., 2^ N−1 } )
+ for turno in range(1, N):
+   forma = valutaforma(i, turno)
+   if torneo.gioca(i, turno, forma) == False:
+     print(f"la squadra {i} ha perso al {turno} turno")
+     return 
+ print(f"la squadra {i} ha vinto il torneo")
+ 
+La procedure entry gioca di volta in volta confronta il valore del parametro forma delle due squadre e dichiara
+vincitrice quella con valore massimo, se i valori coincidono decide in modo casuale (rigori).
+Alla squadra vincente viene restituito il valore True, alla perdente il valore False.
+*/
+
+// 2^N squadre; 1 vs 2, 3 vs 4, ..., -> vincente vs vincente +1, ..
+//gioca(i, turno, forma) -> confronta la forma delle 2 squadre e dichiara vinc. quella col val max
+//se coincide-> val casuale
+//vincente = true, perdente = false;
+
+monitor torneo{
+  bool winning[2^N] = {true, .., true};
+  bool waiting[2^N] = {true, .. ,true}
+  int forme[2^N];
+  condition c = new condition[2^N];
+
+  //se il giocatore precedente è occupato, aspetta
+  //il giocatore successivo se vede che quello precedente non è occupato, compara e lo sveglia
+  procedure entry bool gioca(i, turno, forma){
+    //se tutti i proc precedenti a i hanno waiting a false, sospendo i
+    if(waiting.prev(i)==false){
+      forme[i] = forma;
+      c[i].wait();
+
+      //se ce n'è almeno uno che aspetta, trova l'indice del processo prima che aspetta
+    } else {
+      index = waiting.found.prev(i);
+      waiting[index]=false;
+      waiting[i]=false;
+      
+      if(forme[i]>=forme[index]){
+        winning[i] = true;
+        winning[index]=false;
+        waiting[i]= true;
+      } else {
+        winning[i] = false;
+        winning[index]=true;
+        waiting[index]=true;
+      }
+      c[index].signal();
+    }
+
+    return winning[i];
+  }
+
