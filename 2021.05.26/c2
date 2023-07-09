@@ -1,0 +1,32 @@
+/*Esercizio c.2: Dato un servizio di message passing asincrono implementare un servizio di message passing
+asincrono a selezione di mittenti (samp) senza fare uso di processi server.
+Il servizio samp ha due primitive:
+sasend(message , destination)
+sarecv(senders)
+dove senders è un insieme.
+la sarecv restituisce il primo messaggio che uno dei processi in senders ha spedito al processo ricevente
+usando la sasend (o spedito da qualsiasi processo se senders è vuoto).*/
+
+sasend(msg, dest){
+  asend(<getpid(), msg>, dest);
+}
+
+//restituisce il primo mex che uno dei proc in senders ha spedito al proc ricevente
+//usando la sasend (o chiunque se è vuoto)
+sarecv(senders){
+  while(true){
+    send, msg = arecv(ANY);
+    if(!db.found(send)){
+      db.add(<send, msg>);
+    }
+    if(send in senders && !senders.empty()){
+      if(db.found(send)){
+        msg = db.remove(send);
+        return msg;
+      }
+    } else if(senders.empty()){
+      msg = db.remove.first;
+      return msg;
+    }
+}
+}
