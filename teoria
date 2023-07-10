@@ -194,3 +194,14 @@ sicuramente a una qualche quantita' di dati distrutti.
 di rimpiazzamento?
 
 59. quali sono i vantaggi e quali gli svantaggi dell'utilizzo di librerie dinamiche?
+
+60.  Perché una system call non può essere implementata come una normale chiamata di funzione ad un indirizzo del
+kernel?
+
+61.  Il calcolo del working set dipende dall'algoritmo di rimpiazzamento utilizzato? Perché?
+
+62. Discutere la scelta di usare un file system FAT per una partizione contenente file soggetti a frequenti aggiornamenti
+e variazione di dimensione. E' una scelta appropriata o no? perché?
+
+63. Quando viene richiamato l'algoritmo del Banchiere e cosa succede se il risultato dell'algoritmo mostra che lo stato
+non è safe?
