@@ -1,0 +1,50 @@
+process bohm[i, i=0,1] {
+ for (;;) {
+ m.pre(i);
+ print(i);
+ m.post(i);
+ }
+}
+
+monitor m:
+ condition ok[2];
+ state = 0;
+ procedure entry pre(int n) {
+   if (state != n)
+     ok[n].wait();
+ }
+ procedure entry post(int n) {
+   state = 1 - state;
+   ok[state].signal()
+ }
+}
+
+stato = 0;
+se n!=0 -> aspetta
+print n
+stato = 1
+sveglia 1
+  
+semaphore s(0);
+semaphore mutex(1);
+process bohs[i, i=0,1] {
+ for (;;) {
+ pre(i);
+ print(i);
+ post(i);
+ }
+}
+void pre(int n) {
+  mutex.P();
+  s.P()
+  mutex.V();
+}
+void post(int n) {
+  mutex.P();
+  s.V();
+  mutex.V();
+}
+
+Scopo di questo esercizio è di studiare il comportamento del programma composto dai processi bohm e dal monitor
+m nella colonna di sinistra e di completare il programma sulla destra in modo che abbia lo stesso comportamento ma
+usi i semafori al posto del monitor e che sia minimale in termini di numero di istruzioni e di variabili utilizzate.
