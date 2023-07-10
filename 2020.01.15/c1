@@ -1,0 +1,55 @@
+/*
+Esercizio c.1: Il monitor "semaforo con timeout" semtimeout deve fornire tre procedure entry:
+void V(void)
+boolean P(unsigned int timeout)
+void tick(void)
+Vale l'invariante dei semafori generali. La funzione tick viene richiamata ad ogni millisecondo. Un processo messo in
+attesa a causa di una P attende al massimo il numero di millisecondi indicato nel parametro.
+Se un processo viene riattivato per timeout la P ritorna valore vero, altrimenti falso. Le operazioni V devono riattivare i
+processi in attesa in ordine FIFO.
+Scrivere semtimeout
+*/
+
+monitor semtimeout{
+  list <condition,int> waitingProc;
+  bool isTimeout;
+  int value = 0;
+  //int nP, nV;
+  
+  
+  //riattiva i processi in attesa in ordine fifo
+  void V(){
+  //in ordine fifo
+    if(waitingProc != NULL){
+      c, timeout = waitingProc.first.remove();
+      isTimeout=false;
+      value --;
+      c.signal();
+    }
+  }
+
+  //proc messo in attesa aspetta max timeout ms
+  //se viene riattivato dal timeout return true else return false
+  boolean P(int timeout){
+    if(value ==0){
+      condition c = new condition
+      waitingProc.add(<c, timeout>);
+      c.wait();
+    }
+    return isTimeout;
+  }
+
+  //richiamata a ogni ms
+  void tick(){
+    decrementAllByOne(waitingProc);
+    list tmp = waitingProc;
+    while(tmp!=NULL){
+      if(tmp.val.Second==0){
+        c = tmp.val.remove(0);
+        isTimeout=true;
+        value --;
+        c.signal();
+      }
+    }
+  }
+}
