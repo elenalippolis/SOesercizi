@@ -185,3 +185,12 @@ perdita di alcun dato, mentre con RAID5 la rottura di piu' di un disco portera'
 sicuramente a una qualche quantita' di dati distrutti.
 
 55. Perché è difficile revolacre una autorizzazione fornita tramite una capability?
+
+56. perché l'invenzione degli interrupt ha reso i sistemi operativi più efficienti?
+
+57. ha senso utilizzare RAID 5 con due dischi?
+
+58. in quali casi entra in funzione il paginatore in un sistema di memoria virtuale e quando viene richiamato l'algoritmo
+di rimpiazzamento?
+
+59. quali sono i vantaggi e quali gli svantaggi dell'utilizzo di librerie dinamiche?
