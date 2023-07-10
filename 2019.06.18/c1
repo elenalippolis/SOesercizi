@@ -1,0 +1,49 @@
+/*
+Esercizio c.1: passaggio di dati uno o centomila ma non nessuno.
+Scrivere un monitor con due procedure entry:
+put(T dato);
+T get(void);
+Esistono due tipi di processo: gli scrittori che chiamano put e i lettori che chiamano la get.
+La put deve fare in modo che tutti i lettori in attesa, qualora ve ne siano, ricevano il dato passato come parametro. Se
+non ci sono lettori in attesa la put deve attendere la prima chiamata della procedure entry get e trasferire il dato. Se ci
+sono già scrittori in attesa, il nuovo scrittore si mette in coda (ordine FIFO).
+La get quindi se c'è uno scrittore in attesa deve ritornare il dato del primo scrittore in attesa (e sbloccare lo scrittore),
+altrimenti deve attendere la prossima chiamata della procedure entry put.
+Domanda ulteriore: è possibile implementare il monitor con una sola variabile di condizione? Perché?
+*/
+
+monitor unocentomilamanonnessuno{
+  condition ok2go;
+  int nr=0;
+  int nw=0;
+  queue <T> buffer;
+
+  //scrittori chiamano la put
+  //tutti i lettori in attesa (se ci sono) ricevono il dato passato come parametro
+  //se non ci sono, la put aspetta la 1 chiamata della get e trasferisce il dato
+  //se ci sono già scrittori in attesa, si mette in coda
+  put(T dato){
+    nw++;
+    T.enqueue(dato);
+    if(nr==0){
+      ok2go.wait;
+    } else {
+      ok2go.signal()
+    }
+    nw--;
+  }
+
+  //lettori chiamano la get
+  //se c'è uno scrittore in attesa, torna il dato del primo scrittore in attesa (e lo sblocca)
+  //sennò aspetta la prossima chiamata put
+  T get(){
+    nr++;
+    if(nw==0){
+      ok2go.wait();
+    } else {
+      ok2go.signal();
+    }
+    nr--;
+    return(T.dequeue());
+  }
+}
