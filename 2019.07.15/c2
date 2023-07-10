@@ -1,0 +1,28 @@
+fun dilemma(x):
+   asend((getpid(), x, ""), serverproc)
+   return arecv(serverproc) 
+
+ serverproc: process
+   while True:
+     (pid, x, y) = arecv(None)
+     if x == "":
+       asend(y, pid)
+     else
+       asend((pid, x[1:], y + x[0]), getpid())
+
+
+Cosa calcola la funzione dilemma tramite il processo serverproc? Descrivere come avviene il calcolo.
+Se più processi chiamano la funzione dilemma in concorrenza il calcolo avviene in modo corretto? Perché?
+Note: asend/arecv sono le primitive di un sistema di message passing asincrono. La funzione asend ha due parametri: il
+messaggio da inviare e l'identità del processo destinatario. Il parametro della funzione arecv indica il mittente atteso,
+None indica che vengono accettati messaggi da ogni mittente. La funzione getpid restituisce l'identità del processo
+chiamante.
+
+sender, msg, ""
+pid    x    y
+
+Manda a se stesso il mex finché non finisce: in msg c'è un messaggio scritto al contrario
+una volta ricostruito il nome del messaggio (in y), x è vuoto (""), e viene mandato al sender iniziale il msg invertito
+il sender iniziale lo stampa
+
+Se più processi chiamano la funzione in concorrenza cosa succede?
