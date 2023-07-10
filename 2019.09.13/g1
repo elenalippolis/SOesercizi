@@ -1,0 +1,26 @@
+ Sia dato in programma che elabori per x millisecondi, compia una operazione di I/O su uno specifico
+device per y millisecondi quindi faccia una elaborazione finale per x millisecondi e termini.
+Si eseguano tre istanze dello stesso programma su un sistema monoprocessore. I tre processi iniziano l'esecuzione al
+tempo zero e accedono allo stesso device in modo mutualmente esclusivo: le richieste di I/O vengono gestite in
+modalità FIFO.
+Si confronti ora il comportamento di uno scheduler del processore round-robin con valore di time slice m e quello di
+uno scheduler non preemptive a priorità statica (i tre processi hanno priorità diversa).
+A quali condizioni e per quali valori di x, y e m i due scheduler si comportano nello stesso modo?
+
+3 volte P
+P: x cpu, y I/O, x cpu
+
+RR, time slice m
+scheduler non preemptive a priorità statica
+
+QUando si comportano nello stesso modo?
+es. x=2, y=2
+RR, m=x
+cpu p1 p1 p2 p2 p3 p3
+i/o       p1 p1 p2 p2 p3 p3
+
+pr statica, con p1 max prio, p2 med prio, p3 min prio
+cpu p1 p1 p2 p2 p3 p3
+i/o       p1 p1 p2 p2 p3 p3
+
+Si comportano allo stesso modo se m=x, partono con la stessa sequenza
