@@ -1,20 +1,86 @@
 1. La libreria C fornisce delle funzioni che consentono di richiedere system call (per esempio open, read, ecc.). 
 Come sono realizzate queste funzioni? Come vengono passati i parametri e il valore di ritorno delle system call?
-I parametri sono in registri della CPU. 
-In un altro registro di vede il valore della system call
 
-2. Dati 4 dischi da 1GB, si possono memorizzare più dati usando una organizzazione RAID!= o RAID5? perché?
-RAID5 memorizza 3 dischi, RAID10 solo 2.
+La libreria C standard fornisce delle funzioni che facilitano l'uso di system call come 'open', 'read', ecc.
+Queste funzioni sono in genere implementate come wrapper intorno alle system call del sistema operativo sottostante.
+Una system call non è gestita da una libreria, ma dal kernel del s.o.. 
+Quando un programma fa una system call, fa un'interruzione del sw che sposta l'esecuzione nel kernel.
+Questo è necessario perché le system call richiedono privilegi più elevati di quelli che i normali programmi utente hanno.
+
+Quando viene eseguita una system call, i parametri vengono passati solitamente attraverso registri della CPU (es. registri ecx)
+Dopo che i parametri sono stati caricati nei registri, il programma esegue un interruzione del software, che sposta l'esecuzione nel kernel-
+Il kernel guarda il numero della system call nel registro appropriato e esegue la funzione appropriata-
+Dopo che la system call è stata eseguita, il valore di ritorno viene caricato in un registro. L'esecuzione viene restituita al programma utente,
+che può controllare il valore nel registro per vedere il risultato della system call.
+
+Le funzioni di sistema in C sono implementate come funzioni di libreria che forniscono un'interfaccia di alto livello alle system call del s.o.
+es.
+int open(const char *pathname, int flags) {
+    return syscall(SYS_open, pathname, flags);
+}
+è una funzione di basso livello
+
+2. Dati 4 dischi da 1GB, si possono memorizzare più dati usando una organizzazione RAID10 RAID5? perché?
+- RAID10 (noto come RAID 1+0): configurazione che è un mix di RAID1 e RAID0.
+In RAID1 i dati vengono scritti in modo identico su due dischi (mirroring), offrendo alta ridondanza.
+In RAID0, i dati vengono suddivisi (striped) tra i dischi, senza ridondanza.
+In RAID10, i dati vengono prima replicati (RAID1) e poi questi set di dati replicati vengono suddivisi tra i dischi (RAID0).
+Se hai 4 dischi da 1GB ciascuno, in RAID10  si avrebbe solo 2GB di spazio di archiviazione utilizzabile perché i dati vengono
+replicati tra i dischi.
+-RAID 5 (striping con parità): in RAID5 i dati vengono suddivisi e scritti su tutti i dischi, come in RAID0. 
+Viene anche calcolata l'informazione di parità per ogni blocco di dati e viene scritta su uno dei dischi. Questa informazione di parità
+consente la ricostruzione dei dati se un disco fallisce.
+Se hai 4 dischi da 1 GB ciascuno, aversti 3GB di spazio, perché l'equivalente di un disco intero viene usato per l'informazione di parità.
+RAID5 memorizza 3 dischi, RAID10 solo 2. Quindi RAID5 dà più spazio rispetto a RAID10.
 
 3. Dimostrare che se un algoritmo di rimpiazzamento è a stack allora non può soffrire dell'anomalia di Belady.
-Se è a stack per ogni frame se ne aggiugne 1, diventa un sottoinsieme. Non può mai avere page fault.
+
+L'anomalia di Belady è un fenomeno in cui l'aumento della quantità di risorse di memoria fisica (es. numero di page frame)
+può portare a un aumento del numero di page fault in un algoritmo di rimpiazzamento delle pagine. Questa anomalia è particolarmente
+evidente nell'algoritmo FIFO (First-in, first-out) per la sostituzione delle pagine.
+Un algoritmo di rimpiazzamento è detto a stack quando l'ordine delle pagine nel working set (le pagine attualmente caricate in memoria)
+mantiene la proprietà LIFO, come uno stack.
+Gli algoritmi a stack, come LRU, hanno la proprietà che un aumento del numero di page frame non può mai aumentare il numero di page fault.
+Quindi non soffrono dell'anomalia di Belady.
+La ragione di ciò è che, se un algoritmo di rimpiazzamento segue la proprietà di stack, allora l'insieme delle pagine in memoria con N page
+frame è sempre un sottoinsieme dell'insieme delle pagine in memoria con N+1 page frame. In altre parole, se aggiungi più memoria, 
+le pagine che erano in memoria prima ci saranno ancora, più qualche altra pagina.
+Di conseguenza, non puoi avere più page fault.
 
 4. L'algoritmo del Banchiere evita che si verifichino situazioni di deadlock. Sembra una funzione desiderabile,
 eppure viene raramente usato nei sistemi reali, perché?
+
+L'algoritmo del banchiere è un metodo di deadlock prevention. Anche se può prevenire deadlock, non viene spesso usato nei sistemi reali perché:
+- conoscenza completa richiesta: richiede una conoscenza completa e precisa delle risorse  future che ciascun processo richiederà.
+Questo è raramente possibile nei sistemi operativi reali, dove le richieste di risorse possono essere dinamiche e imprevedibili.
+- overhead computazionale: richiede un'analisi costante e dettagliata dello stato delle risorse e di tutti i processi. QUesto può postare a un overhead
+computazionale
+- riduzione dell'uso delle risorse: tende ad essere conservativo nell'allocazione delle risorse per prevenire i deadlock. Questo può portare a un
+sotto utilizzo delle risorse, riducendo l'efficienze complessiva
+- è complesso da implementare
+
+Non so se la risposta sia giusta.
+
 I processi danno a priori la quantità massima di risorse da utilizzare.
 
 5. quali operazioni compie un device driver per iniziare un'operazione di I/O? 
 Come viene rilevato il completamento dell'operazione di I/O?
+
+Un device driver, o driver di dispositivo, è un componente software che permette al s.o. di interagire con un dispositivo
+hw. Quando un'applicazione o il s.o. desidera iniziare un'operazione di I/O con un dispositivo, il device driver svolge un
+insieme di operazioni:
+- interpretazione della richiesta: il s.o. invia una richiesta di I/O al driver di dispositivo. QUesta potrebbe essere per esempio
+la lettura o la scrittura di dati su disco. Il driver interpreta la richiesta in termini di comandi specifici per il dispositivo
+- preparazione del dispositivo: il driver potrebbe dover preparare il dispositivo per l'operazione
+- invio del comando al dispositivo: una volta che il dispositivo è pronto, il driver invia il comando al dispositivo. Questo potrebbe 
+comportare la scrittura di valori specifici in particolari indirizzi di memoria mappati sul dispositivo, o l'emissione di un segnale al dispositivo.
+Per rilevare il completamento dell'operazione di I/O, esistono 2 principali approcci:
+- polling: il driver di dispositivo continua a controllare lo stato del dispositivo per vedere se ha completato l'operazione. Questo può essere
+inefficiente in termini di utilizzo della CPU.
+- interrput: approccio più efficiente. Quando l'operazione di I/O è completata, il dispositivo emette un segnale di interrput alla CPU.
+Questo segnale fa sì che la CPU interrompa quello che sta facendo e passi il controllo a una routine di servizio di interrupt, che può
+essere parte del driver di dispositivo. QUesta routine gestisce il completamento dell'operazione di I/O, es. leggendo i dati dal dispositivo e 
+copiandoli in memoria, e poi segnalando al sistema operativo che l'operazione è stata completata.
 
 6. In un sistema a memoria virtuale un interrupt di tipo TLB-miss indica sempre la mancanza di una pagina
 in memoria (page miss)?
