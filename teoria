@@ -205,3 +205,11 @@ e variazione di dimensione. E' una scelta appropriata o no? perché?
 
 63. Quando viene richiamato l'algoritmo del Banchiere e cosa succede se il risultato dell'algoritmo mostra che lo stato
 non è safe?
+
+64. Dati 4 dischi da 1GiB, si possono memorizzare più dati usando una organizzazione RAID10 o RAID5? Perché?
+
+65. Dimostrare che se un algoritmo di rimpiazzamento è a stack allora non può soffrire della anomalia di Belady
+
+66. Quali sono le differenze fra un device driver di una unità con funzionalità di DMA e quello di una unità senza DMA?
+
+67. Come vengono memorizzati i link simbolici in un filesystem?
