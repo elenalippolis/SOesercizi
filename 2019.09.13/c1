@@ -1,0 +1,56 @@
+/*
+Esercizio c.1: Scopo di questo esercizio è di scrivere un monitor mbuf che realizzi un buffer limitato dove ogni elemento
+venga inserito con una molteplicità. In particolare mbuf deve fornire le seguenti procedure entry:
+void add(type data, int n);
+che inserisce il dato data con molteplicità n.
+type get(void);
+che restituisce il primo dato disponibile.
+Il monitor deve soddisfare i seguenti vincoli:
+• il buffer deve contenere al più MAXELEM elementi (ogni operazione add aggiunge un elemento
+indipendentemente dalla molteplicità n)
+• i dati vengono consegnati in ordine FIFO
+• un dato inserito con molteplicità n deve essere ricevuto da n processi: il monitor deve attendere che n processi
+chiamino (o abbiano chiamato) la get e a quel punto restituisce il dato a tutti e toglie l'elemento dal buffer. 
+*/
+
+#define MAXXELEM
+monitor mbuf{
+  Queue buffer[MAXELEM]= new Queue();
+  int waitingGet=0;
+  condition ok2add, ok2get, nget;
+
+  //aggiunge sempre un elemento a prescindere dalla molteplicità n
+  //un dato inserito n volte deve essere ricevuto da n processi: il monitor attende che n processi chiamino la get
+  // e restituisce a tutti quell'elemento e lo toglie dal buffer
+  void add(type data, int n){
+    int rest = n;
+
+    while(true){
+      if(waitingGet<n){
+        nget.wait();
+      }
+      while(rest> 0){
+        if(buffer.length>MAXELEM){
+         ok2add.wait();
+        }
+      buffer.enqueue(data);
+      rest--;
+    }
+      ok2get.signal()
+    }
+    
+  }
+
+  //restituisce il primo dato disponibile
+  type get(){
+    nget++;
+    if(waitingGet==n){
+      nget.signal()
+    }
+    ok2get.wait();
+    data = buffer.dequeue();
+    ok2add.signal()
+    nget--;
+    return data;
+  }
+}
