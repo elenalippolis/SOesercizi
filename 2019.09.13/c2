@@ -24,9 +24,13 @@ se n!=0 -> aspetta
 print n
 stato = 1
 sveglia 1
-  
-semaphore s(0);
+
+---------------------------
+
+semaphore s(1);
 semaphore mutex(1);
+int state =0;
+
 process bohs[i, i=0,1] {
  for (;;) {
  pre(i);
@@ -34,15 +38,22 @@ process bohs[i, i=0,1] {
  post(i);
  }
 }
+
 void pre(int n) {
   mutex.P();
-  s.P()
-  mutex.V();
+  if(state!=n){
+   s.P()
+   mutex.V();
+  } else {
+   mutex.V();
+  }
+  
 }
 void post(int n) {
   mutex.P();
-  s.V();
+  state=1-state;
   mutex.V();
+  s.V();
 }
 
 Scopo di questo esercizio è di studiare il comportamento del programma composto dai processi bohm e dal monitor
