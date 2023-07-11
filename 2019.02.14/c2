@@ -1,0 +1,24 @@
+/* Sia dato un servizio di message passing asincrono. Senza fare uso di processi server implementare un
+servizio di message passing parzialmente sincrono (nel quale l'operazione pssend blocchi il chiamante fino ad
+avvenuta ricezione del messaggio e la operazione psreceive non sia bloccante, quindi deve ritornare immediatamente
+"None" se non è stato ricevuto alcun messaggio corrispondente alle richieste). */
+
+// MPA -> MP parz S :pssend blocca il chiamante fino a ricezione, psreceive non bloccante (deve ritornare none se non ci sono msgs corrisp)
+
+//blocca fino a ricezione
+void pssend(msg_t msg, pid_t dest){
+  asend(<getpid(), msg>, dest);
+  ACK = arecv(dest);
+}
+
+//non bloccante
+msg_t psreceive(pid_t sender){
+  s, m = arecv(ANY);
+  if(s==sender){
+    asend(s, ACK);
+    return m;
+  } else {
+    return None;
+  }
+}
+
