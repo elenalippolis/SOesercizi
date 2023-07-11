@@ -1,0 +1,40 @@
+In un sistema vengono eseguiti due tipi di processo, il tipo A richiede 3ms di calcolo e termina, il tipo B
+richiede 4ms di calcolo e poi termina. Processi di tipo A vengono attivati ogni 6 ms (cioe' al tempo 0, 6, 12, 18, 24, 30...)
+mentre processi di tipo B ogni 8ms (al tempo 0, 8, 16, 24, 32, 40....). Ogni processo di tipo A deve completare
+l'esecuzione prima che inizi il successivo dello stesso tipo, e in modo equivalente ogni processo di tipo B deve
+terminare prima che venga eseguito il successivo.
+a) è possibile eseguire i processi con uno scheduler non-preemptive a priorità con i processi di tipo B a maggiore
+priorità di quelli del tipo A.
+b) è possibile eseguire i processi con uno scheduler non-preemptive a priorità con i processi di tipo A a maggiore
+priorità di quelli del tipo B
+c) è possibile eseguire i processi con uno scheduler round robin con timeslice 2ms? (il primo a partire potrebbe essere
+di tipo A o di tipo B).
+
+A: 3ms cpu, ogni 6 ms
+B: 4ms cpu, ogni 8 ms
+
+a) scheduler non-preemptive a priorità (B>A)
+
+tmp 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16
+cpu B  B  B  B  A  A  A     B  B  B  B   
+A dovrebbe iniziare al ms 10, mentre B è in esecuzione, quindi non è possibile
+
+b) scheduler non preemptive a priorità A>B
+
+tmp 0  1  2  3  4  5  6  7  8  9 10 11
+cpu A  A  A  B  B  B  B
+A dovrebbe iniziare al ms 6, mentre è in esecuzione B. Non essendo preemptive non può interromperlo
+Non è possibile
+
+c) round robin, timeslice 2 ms
+
+PARTE A:
+tmp 0  1  2  3  4  5  6  7  8  9  10
+cpu A  A  B  B  A  B  B
+
+PARTE B:
+tmp 0  1  2  3  4  5  6  7  8  9  10
+cpu B  B  A  A  B  B  A
+
+se parte B, sia a che b vengono riattivati al ms 8: impossibile
+se parte a, mentre è in esecuzione b (ms 6) dovrebbe ripartire a: impossibile.
