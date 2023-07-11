@@ -85,33 +85,157 @@ copiandoli in memoria, e poi segnalando al sistema operativo che l'operazione è
 6. In un sistema a memoria virtuale un interrupt di tipo TLB-miss indica sempre la mancanza di una pagina
 in memoria (page miss)?
 
+No, un interrupt di tipo TLB-miss non indica necessariamente la mancanza di una pagina in memoria (page miss).
+Il TLB (translation lookaside buffer) è una piccola cache hardware che contiene una parte della tabella di traduzione delle pagine.
+Quando un processo tenta di accedere a un indirizzo di memoria, il sistema prima controlla il TLB per vedere se la traduzione dall'indirizzo virtuale
+all'indirizzo fisico è gia disponibile. Se c'è (TLB hit), la CPU può accedere rapidamente all'indirizzo fisico corrispondente. Se non c'è (TLB miss)
+il sistema deve cercare la traduzione nella tabella delle pagine (processo più lento).
+
+Un page miss si verifica quando un processo tenta di accedere a una pagina che non è attualmente caricata in memoria fisica. Questo è noto anche come page fault.
+
+Quindi un TLB miss significa solo che la CPU deve caricare la traduzione dell'indirizzo nella tabella delle pagine, non che la pagina non sia in memoria.
+Se la pagina è inn memoria, ma la sua traduzione non è nel TLB, si avrà un TLB miss seguito da un accesso alla tabella delle pagine, ma non un page fault.
+Se la pagina non è in memoria, avremo un TLB miss seguito da un page fault.
+
 7. Quali sono le metodologie che si possono utilizzare per minimizzare i rischi di attacco tramite worm?
+I worm sono una tipologia di malware che può diffondersi autonomamente da un sistema all'altro, sfruttando varie vulnerabilità del sw.
+Misure da adottare per minimizzare il rischio di attacco tramite worm:
+- aggiornamenti sw: spesso gli aggiornamenti includono patch di sicurezza che risolvono vulnerabilità note che i worm potrebbero sfruttare
+- firewall: può aiutare a bloccare le connessioni non autorizzate al sistema, che un worm potrebbbe cercare di stabilire
 
 8. confrontare l'allocazione concatenata e l'allocazione indicizzata nei file system. Quali sono i pro e 
 i contro dei due metodi?
 
+- allocazione concatenata: in un sistema di allocazione concatenata, ogni file è una lista concatenata di blocchi di disco. Ogni blocco contiene 
+un puntatore al blocco successivo del file.
+pro: 
+    - semplice: l'allocazione concatenata è semplice da implementare e gestire. non richiede complesse strutture dati per tener traccia dei blocchi di un file
+    - efficiente nello spazio: non richiede spazio aggiuntivo per memorizzare indici dei blocchi
+contro:
+    - accesso sequenziale: supporta solo l'accesso sequenziale ai file. Se si vuole accedere a un blocco specifico di un file, è necessario scorrere tutta la lista
+      dei blocchi dal primo fino al blocco desiderato (molto lento)
+    - affidabile: se un puntatore viene corrotto, si può perdere l'accesso al resto del file.
+
+- allocazione indicizzata: c'è un blocco di indice per ogni file, che contiene puntatori a tutti gli altri blocchi del file
+pro:
+    - accesso diretto: permette accesso diretto a qualsiasi blocco di un file, ciò rende più veloce l'accesso a un singolo blocco di un file grande
+    - flessibile: i file possono essere facilmente estesi aggiungendo nuovi blocchi e aggiornando l'indice
+contro:
+    - overhead di spazio: ogni file ha bisogno di un blocco indice, che può richiedere una significativa quantità di spazio disco se ci sono molti file piccoli
+    - complesso: più complesso da implementare rispetto all'allocazione concatenata. Richiede la gestione di strutture dati più complesse
+    - ricerca: la ricerca di un file può richiedere tempo, in quanto bisogna prima leggere l'indice e poi accedere al blocco dati
+
+risposta breve:  l'allocazione indicizzata è generalmente più flessibile e permette un accesso più rapido ai dati, ma a costi di spazio e complessità superiori. 
+L'allocazione concatenata è più semplice e richiede meno spazio, ma è meno flessibile e più lenta per l'accesso ai dati. 
+
 9. Quali sono gli interrupt hardware più frequenti e quali le trap (interrupt software) più frequenti?
+
+Gli interrupt sono meccanismi usati nei s.o. per interrompere temporaneamente l'esecuzione normale del processo e passare il controllo a una routine
+di servizio specifica. 
+Esempi di interrupt hw:
+- interrupt di I/O: interrupt generati da dispositivi hardware (tastiera, mouse, stampante,..) quando hanno bisogno di attenzione del s.o.
+- interrupt di timer: generati da timer hw a intervalli regolari. Usati per implementare funzioni come la preemption in un sistema multitasking
+- interrupt di errore hw: generati quando si verifica un errore hw (errore di parità di memoria, errore di I/O su disco)
+
+Esempi di trap (sw):
+- system call: sono richieste fatte da un processo al s.o. per eseguire un'azione specifica (lettura o scrittura di file, apertura o chiusura socket, ..)
+- eccezioni: come la divisione per 0 o l'accesso a un'area di memoria non autorizzata, generano una trap che interrompe l'esecuzione del processo e passa il controllo
+a una routine di gestione delle eccezioni
+- segnali: in alcuni s.o. i segnali sono un tipo di trap sw che può essere usato per interrompere un processo o indormarlo di un evento
+
 
 10. A cosa serve il Translation Lookahead Buffer?
 
+Il TLB è una componente hw presente nell'unità di gestione della memoria (MMU). Il suo scopo è migliorare l'efficienza della traduzione degli indirizzi di memoria
+virtuali in indirizzi fisici.
+Nei sistemi con memoria virtuale, ogni processo ha il proprio spazio di indirizzamento virtuale, che viene mappato nello spazio di indirizzamento fisico del computer.
+Questa mappatura avviene in "pagine". 
+Le informazioni sulla mappatura da indirizzi virtuali a fisici sono conservate nella tabella delle pagine.
+Ogni volta che un processo tenta di accedere a un indirizzo di memoria, la CPU deve tradurre quell'indirizzo virtuale in uno fisico.
+Questo comporta la ricerca nella tabella delle pagine (operazione anche lenta, soprattutto se è grande e conservata nella memoria principale).
+
+Il TLB è una piccola cache che conserva le traduzioni recenti di indirizzi virtuali in indirizzi fisici. Quando la CPU deve tradurre un indirizzo, prima controlla il TLB, 
+se la traduzione c'è (TLB hit), la CPU può usare quell'indirizzo fisico, sennò (TLB miss), la CPU deve cercare la traduzione nella tabella delle pagine.
+
 11. Quali problemi può porre l'implementazione di un Sistema Operativo con il supporto di memoria virtuale e di
-controller di I/O di tipo DMA?
+controller di I/O di tipo DMA (direct memory access)?
+
+- incoerenza dei dati: quando si usa il DMA, un dispositivo di I/O può leggere o scrivere direttamente dalla o nella memoria senza l'intervento del processore.
+Se il sistema operativo usa la memoria virtuale, gli indirizzi fisici usati dal DMA potrebbero non corrispondere a quelli virtuali usati dal processo.
+Questo può causare problemi se un processo modifica i dati in un indirizzo virtuale mentre un dispositivo DMA sta leggendo o scrivendo dal corrispondente indirizzo fisico.
+- sostituzione di pagine: il s.o. può decidere di spostare le pagine di memoria tra la memoria principale e lo storage di massa (swapping o paging) per fare spazio a nuovi dati.
+Se una pagina viene spostata mentre è in corso un'operazione di DMA, i dati potrebbero finire nel posto sbagliato o essere persi.
+- TLB miss: se un controller DMA usa indirizzi fisici per il trasferimento dei dati e la corrispondente pagina non è presente in memoria (TLB miss), il s.o. deve essere in grado di gestire
+tale situazione, assicurandosi che le pagine coinvolte nelle operazioni DMA siano bloccate in memoria oer tutta la durata dell'operazione.
+
+da controllare
 
 12. Qual è la complessità computazionale dell'algoritmo del banchiere monovaluta e quella del banchiere multivaluta?
+L'algoritmo del banchiere è un metodo usato nei s.o. per prevenire il deadlock.
+- algoritmo del banchiere monovaluta: l'operazione chiave è la ricerca di una sequenza sicura di processi. Questo richiede che per ogni processo nel sistema l'algoritmo
+verifichi se le risorse richieste sono inferiori alle risorse disponibili. Nel caso peggiore, questo fovrebbe essere fatto per ogni possibile ordine dei processi, quindi
+O(n^2), dove n è il numero dei processi
+- algoritmo del banchiere multivaluta: la complessità aumenta a causa della necessità di gestire più tipi di risorse. Ogni richiesta di risorse deve specificare il tipo e la quantità
+di risorse richieste, e l'algoritmo deve verificare se quelle risorse sono disponibili.
+O(n*m^2), dove n è il numero di processi e m è il numero di tipi di risorse.
 
 13. Perché il compilatore C è scritto in C? Come si fa a compilare il compilatore C se per compilarlo occorre il compilatore
 C?
 
+La scelta di scrivere il compilatore C in C stesso si basa sulla pratica di "bootstrap" (o auto compilazione). Offre vantaggi, tra cui la possibilità di usare le funzionalità di C per migliorare
+e ottimizzare il compilatore stesso, la facilità di manutenzione e l'efficienza.
+Funziona così:
+- compilazione iniziale: la prima versione del compilatore C è scritta in un linguaggio diverso (assembly o altro). Questo primo compilatore C viene usato per compilare il codice sorgente C
+in un eseguibile.
+- bootastrap: una volta che il primo compilatore C è stato creato, può essere usato per compilare versioni successive del compilatore C scritte in C stesso.
+Questo processo può essere ripetuto all'infinito, con ogni nuova versione del compilatore che viene compilata usando la versione precedente.
+
 14. Come si calcola la lunghezza massima di un file in un file system di tipo UNIX?
+
+La lunghezza massima di un file in un file system UNIX può dipendere da vari fattori (es. il tipo di file system in uso, come ext4), la dimensione del blocco di memoria ( e le limitazioni del s.o.)
+In generale la dimensione massima di un file in un file system UNIX è determinata dalla massima quantità di blocchi di memoria che un file può indirizzare.
+
+Ad esempio, nel file system ext4 i puntatori ai blocchi di memoria sono di 4 byte (32 bit), e la dimensione predefinita del blocco è di 4KiB (4096 byte).
+Questo significa che la dimensione massime del file sarebbe di 4byte*2^32 (16TiB)
+ext4 supporta anche la dimensione del blocco dino a 64 KiB, con dimensione massima del file di 256 TiB.
+
+controllare
 
 15. Fornire un elenco di incongruenze che possono venir rilevate dal fsck (file system check) applicato a file
 system di tipo UNIX (e.g. ext2, bffs). Per ogni tipo di incongruenza indicare come viene riscontrata e con quali
 operazioni il fsck può ripristinare la coerenza.
 
+Il comando fsck (file system check) è un'utility di sistema usata su s.o. UNIX per controllare e riparare incongruenze nei file system.
+Alcune incongruenze che fsck può rilevare in file system come ext2 o ext4:
+- incongruenze nei contatori di riferimento (link count): il contatore di riferimento di un file o directory è il numero di riferimento (o link) a quel file o directory.
+Se fsck scopre che il contatore di riferimento è incongruente con il numero effettivo di riferimenti, correggerà il contatore di riferimento col numero corretto.
+- blocchi di dati "orfani": sono blocchi di dati che non sono riferiti da nessun inode.  Fsck li identifica e li libera, riportandoli nella lista dei blocchi liberi
+- inode non utilizzati: sono inode che contengono dati ma non sono riferiti a nessun file o directory. Fsck li identifica e li libera, riportandoli nella lista degli
+inode liberi
+- blocchi di dati doppiamente riferiti: sono blocchi di dati che sono riferiti da più di un inode. Fsck li identifica e può creare una nuova copia del blocco 
+per ciascuno dei file che lo riferiscono, assicurando che ogni file abbia il proprio blocco dati univoco.
+- directory cicliche: sono directory che contengono riferimenti a se stesse, creando un ciclo infinito. Fsck li identifica e rimuove i riferimenti ciclici
+- blocchi di dati fuori limite: sono blocchi dati che hanno indirizzi fuori dai limiti validi del file system (overflow). Fsck li identifica e
+li rimuove dall'inode che li riferisce, e li riporta nella lista dei blocchi liberi.
+- file system unmounted scorrettamente
+
 16. Perché un algoritmo di rimpiazzamento a stack non può essere soggetto ad anomalia di Belady?
+
+L'anomalia di Belady è una situazione in cui l'aumento della quantità di memoria disponibile per il paging può in realtà aumentare il numero di page fault, invece di ridurlo.
+Gli algoritmi di rimpiazzamento a stack non possono subire l'anomalia di Belady. Questo è dovuto al loro comportamento intrinseco: se un algoritmo di rimpiazzamento di pagine
+può essere implementato in modo che l'insieme di pagine in memoria per un numero n di frame di pagina sia sempre un sottoinsieme dell'insieme di pagine in memoria per n+1 frame di pagina, 
+allora quell'algoritmo è immune all'anomalia di Belady.
 
 17. Le password (criptate) nei sistemi UNIX moderni sono memorizzate in un file inaccessibile agli utenti (/etc/shadow).
 Perché?
+
+La ragione principale per cui i sistemi UNIX moderni memorizzano le password criptate in un file separato inaccessibile agli utenti  (/etc/shadow)
+è per migliorare la sicurezza.
+Nei primi sistemi UNIX le password criptate erano memorizzate nel file /etc/passwd, che è leggibile da tutti gli utenti. QUesto file conteneva anche altre informazioni importanti sugli account utente,
+quindi doveva essere accessibile a tutti per consentire funzioni come l'elenco degli utenti.
+Avere le password criptate in un file leggibile a tutti ha rischi di sicurezza. Anche se la password erano criptate, un attaccante potrebbe sempre prenderle e usare tecniche come attacco forza bruta per cercare
+di decifrarle. 
+Le password sono quindi ora memorizzate in un file separato /etc/shadow, che può essere letto solo dall'utente root.
 
 18. Nello scheduler di tipo Shortest Remaining TIme First (versione preemptive di STF: Shortest time first), il tempo
 residuo può diventare negativo. Perché?
@@ -288,3 +412,10 @@ Spiegare brevemente il motivo delle tre affermazioni.
 70.  Come vengono memorizzati i link fisici in un filesystem?
 
 71. Quando un sistema è in trashing il carico della CPU (o delle CPU) è alto o basso, perché?
+
+72. il valore della "finestra" del working set dipende dall'algoritmo di rimpiazzamento utilizzato? Perché ?
+
+73. la metodologia RAID protegge dall'esecuzione di programmi errati che rovinano i dati? Perché?
+74.  Qual è il numero di link indicati nell'i-node di una directory di un File System UNIX (bffs, ext2, ...)? Perché?
+75. I sorgenti del sistema operativo Linux possono essere scaricati e il kernel può essere ricompilato. In quali casi
+pensate sia necessario compilare un kernel specifico?
