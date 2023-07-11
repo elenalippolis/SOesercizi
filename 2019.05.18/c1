@@ -1,0 +1,49 @@
+/*
+Una fabbrica usa 16 tipi di componenti (es. ruota telaio scocca sellino catena ....). Ogni volta che occorre
+costruire un prodotto occorre prendere dal magazzino le parti necessarie, e.g. per fare un go-kart occorre una scocca e
+4 ruote, per fare una bicicletta un telaio, un sellino, 2 ruote e una catena.
+Scopo dell'esercizio è di scrivere un monitor storage per la gestione del magazzino (un vettore di 16 interi).
+Ogni volta che un magazziere riceve un carico di componenti dal formitori chiama la funzione:
+ storage.add(components)
+dove components è un vettore di 16 elementi, indica quanti componenti di ogni tipo vengono aggiunti al magazzino.
+Quando un operaio deve costruire un prodotto chiama:
+ storage.get(components)
+dove components è un vettore di 16 elementi: indica quanti componenti di ogni tipo sono necessari per costruire il
+prodotto richiesto.
+Ovviamente se manca qualche componente occorre aspettare che i magazzinieri ricevano e mettano nel magazzino le
+parti mancanti.
+Le richieste degli operali devono essere soddisfatte in ordine FIFO.
+Ci possono essere casi di Deadlock? e di Starvation? perché?
+*/
+
+//gestione magazzino, FIFO
+monitor storage{
+  int magazzino[16];
+  condition ok2add;
+  condition ok2component[i];
+
+  //chiamata ogni volta che il magazziniere riceve un carico di componenti dal fornitore
+  //components vettore di 16 elementi: indica quanti comp di ogni tipo vengono aggiunti al magazzino
+  procedure entry void add(components){
+    ok2add.wait();
+    for(i=0; i<16; i++){
+      magazzino[i]+=components[i];
+      ok2component[i].signal();
+    }
+  }
+
+  //ogni volta che deve costruire un prodotto viene chiamata
+  //components[16] indica quanti componenti di ogni tipo sono necessari
+  //se manca un componenteo ccorre aspettare add
+  procedure entry void get(components){
+    for(i=0; i<16; i++){
+      while(magazzino[i]-components[i]<0){
+        ok2add.signal();
+        ok2components[i].wait();        
+      }
+      magazzino[i]-=components[i];
+    }
+  }
+}
+
+//Ci può essere deadlock o starvation?
