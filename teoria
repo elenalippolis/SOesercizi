@@ -279,3 +279,12 @@ non è safe?
 66. Quali sono le differenze fra un device driver di una unità con funzionalità di DMA e quello di una unità senza DMA?
 
 67. Come vengono memorizzati i link simbolici in un filesystem?
+
+68.  Esistono partizioni del disco che vengono usate senza creare su di esse strutture di file system? perché?
+
+69.  Un sistema operativo a microkernel è più flessibile, più affidabile ma meno efficiente di un kernel monolitico.
+Spiegare brevemente il motivo delle tre affermazioni.
+
+70.  Come vengono memorizzati i link fisici in un filesystem?
+
+71. Quando un sistema è in trashing il carico della CPU (o delle CPU) è alto o basso, perché?
