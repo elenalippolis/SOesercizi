@@ -1,0 +1,42 @@
+/* Dato un servizio di message passing asincrono e senza fare uso di processi server:
+a) implementare un servizio di message passing sincrono a ricezione multipla. Questo servizio prevede due funzioni
+con la seguente interfaccia:
+ ms_send(pid dest, msg_t msg)
+ ms_recv(int n, pid *senders, msg_t *msgs)
+L'operazione di ricezione deve attendere n messaggi, provenienti dai mittenti indicati nel vettore senders (ogni
+elemento può essere ANY/*) e metterli ordinatamente nel vettore msgs (entrambi i vettori saranno stati
+opportunamente allocati e dimensionati dal chiamante). I processi mittenti degli n messaggi devono rimanere in
+attesa fino a che la ms_recv non può essere completata.
+b) analizzare i casi di deadlock che possono accadere in base alla definizione del servizio di message passing sincrono
+a ricezione multipla.*/
+
+//MPA -> MPS a ricezione multipla
+
+//deve rimanere in attesa finché la ms_recv non è completata
+void ms_send(pid dest, msg_t msg){
+  asend(<getpid(), msg>, dest);
+  ACK = arecv(dest);
+}
+
+//deve attendere n mex, provenienti dai mittenti indicati nel vettore senders
+//e li mette ordinatamente nel vettore msgs
+msg_t * ms_recv(int n, pid * senders, msg_t *msgs){
+  pid * tmp = senders;
+  pid * trueSenders;
+  pid* ts = trueSenders;
+  for(i=0; i<n; i++){
+    //riceve da ogni sender il pid e il mex; aggiorna il puntatore 
+    s, m = arecv(tmp.val);
+    tmp = tmp.next;
+    tmp = NULL;
+    //aggiunge il sender in una lista e aggiorna il puntatore
+    ts.val = s;
+    ts = ts.next;
+    ts = NULL;
+  }
+  while(trueSenders!=NULL){
+    asend(trueSenders.val, ACK);
+    trueSenders = trueSenders.next;
+  }
+  return msgs;
+}
