@@ -416,6 +416,19 @@ Spiegare brevemente il motivo delle tre affermazioni.
 72. il valore della "finestra" del working set dipende dall'algoritmo di rimpiazzamento utilizzato? Perché ?
 
 73. la metodologia RAID protegge dall'esecuzione di programmi errati che rovinano i dati? Perché?
+
 74.  Qual è il numero di link indicati nell'i-node di una directory di un File System UNIX (bffs, ext2, ...)? Perché?
+
 75. I sorgenti del sistema operativo Linux possono essere scaricati e il kernel può essere ricompilato. In quali casi
 pensate sia necessario compilare un kernel specifico?
+
+76. Ci sono spinlock (strutture di sincronizzazione simili al Test@Set) nel kernel Linux? Perché?
+
+77. In un file system tipico di UNIX (ext2/3, bffs, etc) l'accesso diretto è meno efficiente quando il file è di grandi
+dimensioni. E' vero o falso? Perché?
+
+78. Per risolvere una situazione di trashing di memoria occorre terminare forzatamente un processo. E' vero o falso?
+Perché?
+
+79. Dato un sistema monoprocessore che elabora dati in modo batch, cosa cambia se si usa uno scheduler round-robin
+al posto di uno FIFO? 
