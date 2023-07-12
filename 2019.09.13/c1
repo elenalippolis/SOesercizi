@@ -1,3 +1,8 @@
+rivedi: Hai un buon inizio, ma ci sono alcuni problemi con il tuo monitor. La variabile nget dovrebbe essere
+incrementata in get() e decrementata in add() dopo che il dato è stato ricevuto da n processi. 
+Inoltre, add() dovrebbe mettere in attesa il processo solo quando il buffer è pieno. 
+Allo stesso modo, get() dovrebbe mettere in attesa il processo solo quando il buffer è vuoto.
+
 /*
 Esercizio c.1: Scopo di questo esercizio è di scrivere un monitor mbuf che realizzi un buffer limitato dove ogni elemento
 venga inserito con una molteplicità. In particolare mbuf deve fornire le seguenti procedure entry:
