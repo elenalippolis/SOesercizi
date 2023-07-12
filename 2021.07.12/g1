@@ -43,3 +43,10 @@ i=10 ->2  5
 3 1 5 3
 
 è a stack?
+No. Un algoritmo di rimpiazzamento di pagine a stack è un algoritmo che mantiene le pagine in un o
+rdine tale che la pagina che è stata usata meno di recente è in cima allo stack e la pagina che è 
+stata usata più di recente è in fondo allo stack. Un esempio di un algoritmo di rimpiazzamento a 
+stack è l'algoritmo LRU (Least Recently Used).
+L'algoritmo modulo, invece, sceglie le pagine da rimpiazzare in base alla posizione della pagina 
+nella sequenza di riferimenti, non in base all'uso recente delle pagine. Pertanto, non è un 
+algoritmo a stack.
