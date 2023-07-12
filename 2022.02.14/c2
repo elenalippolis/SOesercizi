@@ -1,3 +1,5 @@
+dovrebbe essere corretta
+
 void snsend(msg_t msg, pid dest){
   asend(<getpid(), msg>, dest);
   ACK = arecv(dest);
