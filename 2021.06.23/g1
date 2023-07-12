@@ -1,3 +1,5 @@
+sembra corretto
+
 /*
 Esercizio g.1: Lo scheduler ED è a priorità dinamica, preemptive e gestisce processi periodici (processi che
 si riattivano periodicamente, allo scadere di un periodo se ne attiva una nuova istanza). Lo scheduler sceglie
