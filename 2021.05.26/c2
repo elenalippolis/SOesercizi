@@ -1,3 +1,6 @@
+rifare: Non stai gestendo il caso in cui senders è vuoto e il messaggio non viene da un mittente in senders.
+Non è chiaro come gestisci i messaggi da mittenti non specificati quando senders non è vuoto.
+
 /*Esercizio c.2: Dato un servizio di message passing asincrono implementare un servizio di message passing
 asincrono a selezione di mittenti (samp) senza fare uso di processi server.
 Il servizio samp ha due primitive:
