@@ -1,3 +1,5 @@
+dovrebbe essere corretto
+
 Esercizio g.1: Considerare i seguenti processi gestiti mediante uno scheduler preemptive a priorità statica su una
 macchina biprocessore SMP:
 P1: cpu 4 ms; I-O 4 ms; cpu 2 ms  MIN
