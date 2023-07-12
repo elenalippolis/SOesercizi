@@ -1,3 +1,9 @@
+rifare:  Non tiene traccia delle diverse richieste at_least(n), ma considera solamente il valore 
+massimo di n. Inoltre, le condizioni di attesa non sono correlate a un particolare valore di n, 
+il che significa che il processo potrebbe essere risvegliato anche se la sua richiesta at_least(n) 
+non è stata soddisfatta.
+
+
 /*Scrivere il monitor alrv (at least rendez-vous) che fornisce una sola procedure entry:
 procedure entry void at_least(int n)
 Quando un processo chiama la funzione at_least vuol dire che vuole sincronizzarsi con un insieme di almeno n
@@ -41,3 +47,14 @@ monitor alrv{
       }
   }
 }
+
+-------------
+
+ manteniamo un array count per tracciare il numero di richieste at_least(n) per ogni n. 
+Quando un processo chiama at_least(n), incrementiamo count[n] e controlliamo se ci sono abbastanza 
+richieste per soddisfare la richiesta corrente o qualsiasi richiesta precedente. Se ci sono, 
+decrementiamo i conteggi corrispondenti, segnaliamo le condizioni corrispondenti e usciamo. 
+Se non ci sono abbastanza richieste, il processo corrente va in attesa sulla condizione 
+corrispondente.
+
+
