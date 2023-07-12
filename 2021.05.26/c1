@@ -1,3 +1,7 @@
+rifare: Dovresti controllare se il buffer è vuoto in get(), e solo in quel caso mettere i processi
+in attesa. Altrimenti, dovresti ritornare immediatamente il contenuto del buffer.
+Infine, dovresti svuotare il buffer dopo aver risvegliato tutti i processi in get().
+
 /*
 Esercizio c.1: Un buffer sincrono strampalato (bss) ha due procedure entry:
 void put(T value)
