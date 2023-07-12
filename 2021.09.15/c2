@@ -1,3 +1,5 @@
+rifare: Non stai correttamente impostando il valore di prossimo per il successivo processo destinatario.
+
 /*
 Esercizio c.2: Dato un servizio di message passing sincrono scrivere, senza fare uso di processi server, un servizio di
 message passing sincrono concatenato che abbia le seguenti primitive:
@@ -27,8 +29,27 @@ T chained_recv(){
   if(next!=NULL){
     tmp = prossimo.next;
     ssend(<msg, tmp>, next);
+return m;
   }
   
   return m;
   
+}
+
+-.-------------
+
+la funzione chained_send invia il messaggio e la lista dei destinatari al primo processo nella lista
+dei destinatari. Poi, quando un processo chiama chained_recv, riceve il messaggio e la lista dei 
+destinatari, rimuove il primo destinatario dalla lista (se stesso) e inoltra il messaggio e la lista
+aggiornata al prossimo destinatario nella lista, se presente.
+
+T chained_recv(){
+  T combined_msg = srecv(ANY);
+  T msg = combined_msg.msg;
+  list_of_pids dests = combined_msg.dests;
+  dests.removeFirst();
+  if (!dests.isEmpty()){
+    ssend(combined_msg, dests.first());
+  }
+  return msg;
 }
