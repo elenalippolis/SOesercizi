@@ -1,3 +1,5 @@
+dovrebbe essere corretto
+
 monitor semdata{
   stack waitingProc;
   condition c;
