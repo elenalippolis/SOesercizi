@@ -1,3 +1,5 @@
+
+
 monitor collocalmento{
   lista waitingLav, waitingDat;
 
@@ -19,6 +21,6 @@ monitor collocalmento{
     }
     n, l = waitingLav.delete(skill);
     l.signal();
+    return n;
   }
 }
-
