@@ -8,7 +8,7 @@ monitor bitcond{
   }
 
   void unset(int bit2unset){
-    bit &! bit2unset;
+    bit  &= ~ bit2unset;
   }
 
   void statusWait(int bit2wait){
