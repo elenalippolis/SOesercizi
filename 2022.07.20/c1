@@ -1,3 +1,8 @@
+RIFARE: Nel metodo attracca(capacità), la nave dovrebbe aspettare finché il carico non è uguale alla sua 
+capacità prima di poter partire. Inoltre, nel metodo scarica(quantità), il camion dovrebbe aspettare 
+finché non c'è abbastanza spazio per scaricare il suo carico.
+
+
 monitor porto{
   condition ok2attracca, ok2salpa, ok2arriva, ok2parti;
   bool portoFree=true;
