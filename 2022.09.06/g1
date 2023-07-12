@@ -1,3 +1,13 @@
+rifare: Nel tuo diagramma, il processo P1 esegue l'operazione IO solo dopo che P2 ha terminato il suo
+primo calcolo lungo, il che non dovrebbe accadere dato che l'operazione IO di P1 dovrebbe iniziare 
+subito dopo che P1 ha terminato il suo primo calcolo lungo. Il tuo diagramma sembra suggerire che 
+l'operazione IO è in qualche modo in coda con le operazioni di calcolo lungo, il che non dovrebbe 
+essere il caso.
+Inoltre, nel tuo diagramma, il secondo calcolo lungo di P2 inizia prima che P1 abbia terminato il 
+suo secondo calcolo lungo. Questo non dovrebbe accadere perché P1 dovrebbe avere la priorità su P2 
+dato che è arrivato prima. Il mio diagramma cerca di illustrare questa priorità.
+
+
 Esercizio g.1: Sia dato questo programma:
 
  Program P:
