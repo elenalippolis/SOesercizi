@@ -1,3 +1,5 @@
+rifai: non stai effettivamente controllando se hai ricevuto il messaggio times volte prima di inviare l'ACK.
+
 /*
 Esercizio c.2: Dato un servizio di message passing asincrono scrivere un servizio di message passing sincrono a
 spedizione multipla (senza fare uso di processi server). Devono essere previste due funzioni:
