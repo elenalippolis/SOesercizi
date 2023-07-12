@@ -1,3 +1,5 @@
+soluzione corretta (credo)
+
 Esercizio g.1:  Sia dato un sistema monoprocessore con una unita' di I/O. La CPU viene gestita tramite uno
 scheduler preemptive a priorita' statica. L'accesso all'unita' di I/O avviene con politica FIFO.
 Esistono nel sistema tre tipi di processi periodici (che vengono riattivati allo scadere di ogni periodo).
