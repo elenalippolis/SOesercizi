@@ -1,3 +1,6 @@
+Il valore ritornato dalla funzione dovrebbe essere il valore passato dal processo che ha riattivato 
+l'esecuzione, non il valore passato al processo che viene riattivato.
+
 /*
 Esercizio c.1: Scrivere il monitor delayvalue con una sola procedure entry:
 int delay(int value);
@@ -28,6 +31,28 @@ monitor delayvalue{
     condition c = new condition;
     waitingProc.enqueue(<c, value>);
     c.wait();
+    return risv;
   }
-  return risv;
+  
+}
+--------------
+
+monitor delayvalue{
+  static int NDELAY;
+  int risv;
+  Queue <condition, int> waitingProc = new Queue<condition, int>();
+
+  procedure entry int delay(int value){
+    if(waitingProc.size()>=NDELAY){
+      condition c = waitingProc.front().first;
+      risv = waitingProc.front().second;
+      waitingProc.dequeue();
+      c.signal();
+    } 
+
+    condition c = new condition;
+    waitingProc.enqueue(<c, value>);
+    c.wait();
+    return risv;
+  }
 }
