@@ -1,3 +1,8 @@
+il metodo wP potrebbe rilasciare il mutex e rimanere in attesa sul semaforo s anche se ci fossero 
+processi che hanno già incrementato il valore del semaforo. Questo può creare una situazione in cui 
+il valore del semaforo è positivo, ma ci sono ancora processi in attesa sul semaforo, che non 
+dovrebbe mai accadere.
+
 /*
 Esercizio c.2: Quella che segue vorrebbe essere l'implementazione di un semaforo unfair inizializzato a zero ma è
 errata. Mostrare un caso nel quale il valore del semaforo (value) non venga correttamente mantenuto. Correggere il
