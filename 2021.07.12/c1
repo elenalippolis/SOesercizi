@@ -1,3 +1,12 @@
+rifare:
+- Non stai gestendo correttamente il flusso di controllo dei processi. Il concetto di "sospendere" 
+un processo deve essere gestito con un meccanismo di wait/signal, cosa che stai facendo parzialmente
+con l'array waiting e la variabile condizione c.
+- Non stai usando correttamente l'array waiting, sembra che tu lo stia usando per tenere traccia di 
+chi sta ancora giocando, ma in realtà dovresti fare in modo che i processi attendano il loro turno 
+per giocare. Dovresti invece usare un array di variabili condizione per far sì che ogni squadra 
+attenda il suo turno per giocare.
+
 /*
 Esercizio c.1: La fase finale di un torneo sportivo coinvolge 2^N squadre numerate 0, 1 ,... , 2^N−1 e si svolge ad
 eliminazione diretta. Al primo turno la squadra 0 gioca con la squadra 1, la 2 con la 3 e così via. Al secondo turno la
@@ -57,3 +66,12 @@ monitor torneo{
     return winning[i];
   }
 
+------------------
+    int opponent = i % 2 == 0 ? i + 1 : i - 1;
+
+
+Nell'implementazione sopra, ogni squadra aspetta che il suo avversario abbia giocato il turno 
+corrente prima di poter giocare il suo. Se il suo avversario non ha ancora giocato, 
+la squadra attenderà. Se il suo avversario ha già giocato, la squadra giocherà il turno e segnalerà
+al suo avversario che può procedere. Il vincitore del turno viene determinato confrontando le 
+forme delle due squadre.
