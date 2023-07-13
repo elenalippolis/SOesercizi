@@ -1,0 +1,19 @@
+a. Perché una system call non può essere implementata come una normale chiamata di funzione ad un indirizzo del kernel?
+
+Una system call non può essere implementata come una normale chiamata di funzione ad un indirizzo del kernel per i seguenti motivi:
+    • protezione della memoria: il kernel è una regione di memoria separata rispetto allo spazio utente e ha privilegi diversi per accedere alle risorse di sistema. Le chiamate di funzione normali eseguite nello spazio utente non hanno l’accesso diretto alla memoria del kernel; questo è importante per garantire la sicurezza e la stabilità del sistema.
+    • modalità di esecuzione: il kernel opera in modalità di esecuzione privilegiata (modalità kernel) che gli consente di accedere a risorse critiche del sistema e di eseguire operazioni sensibili. 
+I processi utente operano in una modalità con meno privilegi.
+L’invocazione di una system call richiede una transizione dalla modalità utente alla kernel (gestita dal s.o.). questa transizione di modalità non è possibile con una normale chiamata di funzione, poiché gli indirizzi di funzione nel kernel non sono accessibili direttamente dallo spazio utente
+    • gestione degli interrupt: durante l’esecuzione del kernel possono verificarsi interrupt che richiedono l’attivazione di una routine di gestione degli interrupt. 
+L’implementazione di una system call richiede che il kernel sia in grado di gestire gli interrupt in modo adeguato; questa gestione non c’è nelle funzioni utente
+
+In sintesi, le system call forniscono un'interfaccia controllata, standardizzata e sicura per l'accesso alle risorse del sistema operativo da parte dei processi utente. Queste chiamate non possono essere implementate come normali chiamate di funzione utente, poiché richiedono privilegi di accesso al kernel, la gestione delle interruzioni e un'interfaccia standardizzata per garantire la sicurezza, l'affidabilità e la compatibilità del sistema operativo.
+
+
+b. Discutere la scelta di usare un file system FAT per una partizione contenente file soggetti a frequenti aggiornamenti e variazione di dimensione. E' una scelta appropriata o no? Perché?
+
+Se i file sono di grandi dimensioni, richiedono prestazioni elevate o funzionalità di sicurezza avanzate, e potrebbe essere preferibile usare un file system come ext4.
+
+I file system FAT hanno limitazioni sulla diensione massima che possono gestire. Se i file soggetti a frequenti aggiornamenti e variazioni di dimensione superano questa dimensione massima, potrebbe essere necessario considerare un file system che supporti dimensioni di file più grandi.
+Il file system FAT tende inoltre a frammentare i file,  e offre opzioni di sicurezza limitate rispetto ad altro.
