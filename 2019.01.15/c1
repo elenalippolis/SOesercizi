@@ -1,4 +1,4 @@
-da correggere
+dovrebbe essere corretto
 
 /*Esercizio c.1: Un semaforo pesato è una struttura di sincronizzazione con due primitive P(w) e V(w) (oltre al costruttore
 di inizializzazione). I parametri delle operazioni P e V sono i pesi dell'operazione. L'invariante dei semafori pesati
@@ -12,24 +12,23 @@ in cui sono stati sospesi (FIFO).*/
 //somma dei pesi delle op P completate <= somma pesi operazioni V completate + init
 monitor wsem{
   condition ok2go;
-  int np=0; 
-  int nv = 0;
+  queue weights;
   int value = 0;
 
   //i processi che si bloccano a causa di una P che invaliderebbe l'invariante devono essere riattivati in ordine FIFO
   void P(w){
-    np+=w;
-    if(np > nv + init || init==0){
+    if(w>value){
+      weights.enqueue(w);
       ok2go.wait();
     }
-    value--;
-    np-=w;
+    value-=w;
   }
 
   void V(w){
-    nv += w;
-    ok2go.signal();
-    value ++;
-    nv -= w;
+    value += w;
+    while(weigths.first<value){
+      value=-weigths.dequeue();
+      ok2go.signal();
+    }
   }
 }
