@@ -1,0 +1,33 @@
+a. il valore della "finestra" del working set dipende dall'algoritmo di rimpiazzamento utilizzato? Perché ?
+
+Si, nel contesto della memoria virtuale il valore della finestra del working set può dipendere dall’algoritmo di rimpiazzamento usato.
+Il working set rappresenta l’insieme di pagine o frammenti di memoria che vengono attivamente utilizzati da un processo in un determinato intervallo di tempo. 
+La finestra del working set indica la dimensione dell’intervallo temporale considerato per determinare quali pagine o frammenti di memoria fanno parte del working set corrente.
+Gli algoritmi di rimpiazzamento della memoria virtuale si basano sul concetto del working set per prendere decisioni sulle pagine da sostituire quando la memoria è scarsa. Questi algoritmi cercano di mantenere il working set attivo delle pagine in memoria, in modo che il processo abbia un accesso rapido alle pagine frequentemente utilizzate.
+La finestra del working set influisce sulla dimensione del set di pagine considerate nel calcolo del working set corrente. Un valore inferiore per la finestra del working set significa che solo le pagine o i frammenti di memoria usati più di recente saranno inclusi nel working set corrente. D’altra parte, un valore più grande per la finestra del working set includerà un numero maggiore di pagine o frammenti di memoria usati più di recente.
+Alcuni algoritmi, come LRU, usano il concetto di working set più recente per prendere decisioni di rimpiazzamento; in questo caso la finestra del working set sarà quindi influenzata dal numero di pagine considerate dall’algoritmo per determinare l’ordine di rimpiazzamento.
+Quindi il valore della finestra del working set può dipendere dall'algoritmo di rimpiazzamento utilizzato perché l'algoritmo definisce quali pagine o frammenti di memoria sono considerati nel calcolo del working set corrente. La dimensione della finestra del working set può variare in base all'algoritmo specifico e può influenzare l'efficacia dell'algoritmo stesso nel mantenere le pagine attive in memoria.
+
+
+b. la metodologia RAID protegge dall'esecuzione di programmi errati che rovinano i dati? Perché?
+
+La metodologia RAID non è specificatamente progettata per proteggere dai programmi errati che possono rovinare i dati, ma è una tecnologia usata per migliorare la ridondanza e le prestazioni del sistema di archiviazione. Offrono quindi informazioni di ridondanza su più dischi in caso di guasto di un disco, in modo tale da recuperare i dati grazie alla parità o alla replica presente negli altri dischi del set RAID.
+Se un programma danneggia o modifica i dati su uno dei dischi nel set RAID, la ridondanza potrebbe non essere sufficiente per ripristinare i dati danneggiati; per questo servono misure aggiuntive.
+
+c.  Qual è il numero di link indicati nell'i-node di una directory di un File System UNIX (bffs, ext2, ...)? Perché?
+
+Il numero di link indicati nell’inode di una directory in un file system UNIX (come vffs o ext2) è di solito 2. Questo numero rappresenta il numero di collegamenti, o hard link, verso quella directory.
+    • Link “.”: link che rappresenta la directory stessa. Pertanto il numero di link è sempre 1 per indicare che la directory esiste
+    • Link “..”: link che rappresenta la directory genitore, cioè quella che contiene quella corrente. 
+Questo meccanismo di link è essenziale per mantenere la struttura ad albero delle directory e per consentire il collegamento tra le directory nel sistema di file UNIX.
+
+d. I sorgenti del sistema operativo Linux possono essere scaricati e il kernel può essere ricompilato. In quali casi pensate sia necessario compilare un kernel specifico?
+
+Ci sono vari casi in cui potrebbe essere necessario compilare un kernel specifico per il s.o. Linux
+    • personalizzazione del kernel: personalizzare la configurazione e le funzionalità del kernel per adattarlo alle esigenze specifiche del sistema
+    • supporto per l’hardware specifico: utile per aggiungere il supporto per dispositivi hw che non sono inclusi nel kernel predefinito
+    • ottimizzazione delle prestazioni
+    • risoluzione di problemi e debug: utile per risolvere problemi o bug 
+    • sperimentazione e sviluppo: compilazione di un kernel specifico utile agli sviluppatori per esplorare il funzionamento interno del kernel, spreimentare nuove funzionalità ecc.
+
+soluzione da controllare 
