@@ -1,3 +1,5 @@
+da correggere (ma non importante)
+
 In un sistema vengono eseguiti due tipi di processo, il tipo A richiede 3ms di calcolo e termina, il tipo B
 richiede 4ms di calcolo e poi termina. Processi di tipo A vengono attivati ogni 6 ms (cioe' al tempo 0, 6, 12, 18, 24, 30...)
 mentre processi di tipo B ogni 8ms (al tempo 0, 8, 16, 24, 32, 40....). Ogni processo di tipo A deve completare
