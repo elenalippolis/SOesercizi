@@ -1,0 +1,22 @@
+
+c. Quali sono le differenze fra un device driver di una unità con funzionalità di DMA e quello di una unità senza DMA?
+
+Un device driver è un sw che permette al sistema operativo di comunicare con un dispositivo hw specifico.
+La differenza tra un device driver di un’unità con funzionalità DMA e quello di un’unità senza DMA riguardano principalmente il modo in cui avviene il trasferimento dei dati tra il dispositivo e la memoria del sistema.
+    • Device driver di un’unità senza DMA: in un’entità senza DMA il device driver gestisce in modo diretto il trasferimento dei dati tra il dispositivo e la memoria del sistema. Quando è necessario leggere o scrivere dati dall’unità, il device driver si occupa di inviare comandi al dispositivo per iniziare le operazioni di I/O. Poi aspetta il completamento dell’operazione e trasferisce i dati tra la memoria del sistema e il dispositivo usando operazioni di I/O sincrone
+    • device driver di un’unità con funzionalità di DMA: il device driver sfrutta la capacità di DMA del dispositivo per effettuare trasferimenti diretti tra il dispositivo e la memoria del sistema senza l’intervento diretto della CPU. In questo caso, il device driver avvia un’operazione di I/O indicando al dispositivo la posizione di memoria in cui i dati devono essere scritti o letti. Il dispositivo, grazie al DMA, trasferisce dati direttamente tra la memoria e il dispositivo. Una volta completato il trasferimento, il dispositivo può notificare al device driver che l’operazione è stata eseguita.
+
+Differenze principali:
+    • uso della CPU: l’unità senza DMA ha un device driver che richiede un coinvolgimento attivo della CPU (che copia i dati tra la memoria e il dispositivo), mentre quella con DMA riduce l’overhead di CPU (trasferimenti memoria-dispositivo diretti)
+    • velocità di trasferimento: le unità con funzionalità di DMA possono essere più veloci di quelle senza, perché il trasferimento è diretto.
+
+d. Come vengono memorizzati i link simbolici in un filesystem?
+
+I link simbolici vengono memorizzati come file speciali all’interno del filesystem. Un link simbolico è un file che contiene un path o un’indicazione del nome di un altro file o directory nel sistema di archiviazione.
+Questo permette di creare collegamenti flessibili tra file o directory senza modificare direttamente i file originali.
+Nel file system un link simbolico è rappresentato da una struttura dati che include:
+    • nome del link: nome del file che rappresenta il link simbolico
+    • contenuto del link: il contenuto del file link simbolico (percorso o nome del file di destinazione)
+    • tipo di file: un identificatore nel file system che identifica il file come link simbolico
+
+Quando si segue un link simbolico, il s.o. interpreta il percorso o il nome specificato nel link simbolico e raggiunge il file o la directory di destinazione. Questo significa che il link simbolico può puntare a una posizione diversa nel file system rispetto al file originale e che il file di destinazione può essere rinominato o spostato senza influire sul link simbolico stesso.
