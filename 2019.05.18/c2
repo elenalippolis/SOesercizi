@@ -1,3 +1,5 @@
+corretto
+
 /*
 Una sezione-acritica-unificante (SAU) è una sequenza di istruzioni che può essere eseguita
 contemporaneamente da più processi, ma i processi possono uscirne solo quanto tutti i processi che stanno
@@ -9,30 +11,30 @@ Ogni processo chiama:
 Scrivere le funzioni SAU_enter e SAU_exit mediante l'uso di semafori.
   */
 
-//i proc possono uscirne solo quando tutti completano l'esecuzione
 semaphore mutex(1);
 semaphore sem(0);
-int nenter, nexit;
+int countEnter=0;
+int countExit;
 
-
-void SAU_enter(){
-  mutex.P();
-  nenter++;
-  mutex.V();
+SAU_enter(){
+	mutex.P();
+	countEnter++;
+	mutex.V();
 }
 
-void SAU_exit(){
-  mutex.P();
-  nexit++;
-  if(nenter!=nexit){
-    mutex.V();
-    sem.P();
-  } else {
-    for i=0; i<nexit; i++:
-      sem.V();
-    nexit=0;
-    mutex.V();
-  }
+SAU_exit(){
+	mutex.P();
+	countExit++;
+	if(countEnter>countExit){
+		sem.P();
+		mutex.V();
+	} else {
+		for(i=0; i<countEnter; i++){
+			sem.V();
+			
+		}
+		countEnter=0;
+		countExit=0;
+		mutex.V();
+	}
 }
-
-//quasi tutto giusto
