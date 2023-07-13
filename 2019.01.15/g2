@@ -1,0 +1,34 @@
+a. Ci sono spinlock (strutture di sincronizzazione simili al Test@Set) nel kernel Linux? Perché?
+
+Sì.
+Uno spinlock è un tipo di meccanismo di sincronizzazione che viene usato per prevenire che più thread o processi accedano contemporaneamente a una risorsa condivisa, causando race condition.
+Lo spinlock funziona “girando” in un ciclo, verificando continuamente se il lock è disponibile. È più utile quando il tempo di attesa per il lock è previsto essere breve, perché non hanno l’overhead associato al risveglio di un processo o thread sospeso.
+
+Nel kernel Linux, gli spinlock vengono usati in varie situazioni in cui è necessaria la sincronizzazione a basso livello tra processi o thread del kernel (es. proteggere strutture dati del kernel).
+Lo spinlock ha come contro un possibile uso intensivo della CPU se il tempo di attesa è lungo; e un uso improprio di spinlock può portare a deadlock.
+
+b. In un file system tipico di UNIX (ext2/3, bffs, etc) l'accesso diretto è meno efficiente quando il file è di grandi dimensioni. E' vero o falso? Perché?
+
+Vero, nei file system UNIX tipici, l’accesso diretto a file di grandi dimensioni può essere meno efficiente rispetto a quello a file di dimensioni inferiori. La ragione risiede nella struttura dell’i-node e nel modo in cui i file system gestiscono i file di grandi dimensioni.
+Ogni i-node in un file system UNIX ha un certo numero di puntatori diretti a blocchi di dati. Tuttavia, ci sono solo un numero fisso di puntatori. Quando un file supera una certa dimensione, il s.o. deve iniziare a usare puntatori indiretti.
+I puntatori indiretti puntano a un blocco di puntatori, che a loro volta puntano a blocchi di dati. Questo significa che per accedere a una parte di un file che è referenziata da un puntatore indiretto, il s.o. deve prima leggere il blocco puntatori, e poi usare il puntatore corretto in quel blocco per accedere ai dati. Questo processo richiede più operazioni di I/O rispetto all’uso di un puntatore diretto, il che lo rende meno efficiente.
+
+
+c. Per risolvere una situazione di trashing di memoria occorre terminare forzatamente un processo. E' vero o falso? Perché?
+
+Falso, non è necessario.
+Il thrashing di memoria si verifica quando un sistema passa una quantità eccessiva di tempo a paginare (ovvero a spostare dati tra la RAM e lo spazio di memoria su disco, noto come swap), piuttosto che eseguire i processo.  Soluzioni alternative per affrontare il thrashing
+    • controllo dell’ammissione: si può limitare il numero di processi attivi allo stesso tempo. Se un processo richiede troppa memoria, può essere temporaneamente fermato o il suo avvio essere ritardato
+    • schedulazione a più livelli: i processi possono essere classificati in base alle loro esigenze in memoria; quelli con esigenze minori vengono eseguiti per primi
+    • swapping: alcuni processi possono essere spostati fuori dalla memoria principale e nello spazio di swap sul disco, liberando la memoria
+    • aumento della memoria fisica
+    • ottimizzazione dell’uso della memoria
+
+d. Dato un sistema monoprocessore che elabora dati in modo batch, cosa cambia se si usa uno scheduler round-robin al posto di uno FIFO?
+
+    • Scheduler FIFO: i processi vengono eseguiti nell’ordine in cui arrivano. Questo significa che il primo processo che arriva è il primo processo ad essere eseguito, e così via. 
+        ◦ Svantaggi: se il primo processo è molto lungo, gli altri devono aspettare che sia finito prima di poter iniziare (può portare a starvation)
+    • Scheduler round robin: assegna a ciascun processo un time quantum fisso. Quando il processo ha esaurito il suo quantum, viene messo in coda e il prossimo processo disponibile inizia ad essere eseguito. Questo approccio può portare a una migliore condivisione delle risorse e può prevenire la starvation
+        ◦ svantaggi: può portare a un sovraccarico dovuto alla commutazione frequente dei processi, soprattutto se il quantum è molto piccolo
+
+Se i processi hanno lunghezze simili, RR potrebbe non offrire grandi vantaggi, ma se ci sono differenze significative tra le lunghezze dei processi, RR potrebbe portare a una distribuzione più equa del tempo di esecuzione della CPU.
