@@ -1,3 +1,5 @@
+penso sia corretto
+
 /*
   Esercizio c.1: Scopo di questo esercizio è di scrivere un monitor pairbuf che implementi un buffer illimitato ad
 accoppiamento. Ogni processo che vuole scrivere un elemento nel buffer chiama la funzione di entrata:
@@ -13,40 +15,54 @@ perche' i 20 processi continuino l'esecuzione. Chi ha chiamato la get per primo 
 chiamante della put e così via in ordine FIFO.
 */
 
-//buffer illimitato ad accoppiamento
-//gli elementi devono essere consegnati in ordine FIFO
+Scopo di questo esercizio è di scrivere un monitor pairbuf che implementi un buffer illimitato adaccoppiamento. Ogni processo che vuole scrivere un elemento nel buffer chiama la funzione di entrata:
+void put(T x)
+mentre ogni processo che vuole leggere un elemento dal buffer chiama la funzione:
+T get(void)
+Gli elementi devono essere consegnati in ordine FIFO. Sia la get sia la put sono bloccanti. Solo quando il numero degli scrittori che hanno chiamato la put è uguale a quello dei lettori che hanno chiamato la get tutti i processi in attesa
+vengono sbloccati.
+Quindi per esempio, se un solo scrittore ha chiamato la put, quando arriva un lettore entrambi vengono sbloccati, e il
+lettore riceverà il valore passato come parametro dallo scrittore. Se vi fossero 10 lettori in attesa occorrono 10 scrittori
+perche' i 20 processi continuino l'esecuzione. Chi ha chiamato la get per primo riceverà il dato passato dal primo
+chiamante della put e così via in ordine FIFO.
+
+//buffer illimitato ad accoppiamento, fifo
+//nw==nr -> tutti i processi vengono sbloccati
 monitor pairbuf{
-  Queue buffer;
-  condition ok2put;
-  condition ok2get;
-  int nput = 0; int nget = 0;
+queue <T> buffer;
+int nr=0;
+int nw=0;
+condition ok2w, ok2r;
 
-  //chiamata da ogni proc che vuole scrivere un el nel buffer
-  //bloccante; quando nput ==nget -> tutti i proc vengono sbloccati
-  void put(T x){
-    buffer.enqueue(x);
-    nput++;
-    if(nput!=nget){
-      ok2put.wait();
-    } else {
-      ok2get.signal();
-    }
-    nput--;
-  }
+	//writers; bloccante
+	void put(T x){
+		nw++;
+		buffer.enqueue(x);
+		if(nr!=nw){
+			ok2w.wait();
 
-  //chiamata da ogni proc che vuole leggere un elemento dal buffer
-  //bloccante
-  //chi chiama la get per primo riceve il primo dato passato (FIFO)
-  T get(){
-    nget++;
-    if(nget!=nput){
-      ok2get.wait();
-    } else {
-      ok2put.signal();
-    }
-    nget--;
-    val = buffer.dequeue();
-    
-    return val;
-  }
+		} else {
+			while(nr>0){
+				ok2r.signal();
+			}
+		}
+		nw--;
+		
+	}
+	
+	//readers; bloccante
+	T get(){
+		nr++;
+		if(nw!=nr){
+			ok2r.wait();
+		} else {
+			while(nw>0){
+				ok2w.signal();
+			}
+		}
+		nr--;
+		x = buffer.dequeue();
+		return x;
+			
+	}
 }
