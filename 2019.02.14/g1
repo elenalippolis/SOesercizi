@@ -1,0 +1,6 @@
+In un sistema monoprocessore mostrare un caso nel quale l'algoritmo di scheduling FIFO e quello Round
+Robin producano la stessa sequenza di esecuzione (per evitare casi banali si richiede che siano presenti almeno 3
+processi e ognuno faccia almeno due operazioni di I/O).
+
+In un sistema monoprocessore l'algoritmo FIFO e RR producono la stessa sequenza di esecuzione se il tempo di
+esecuzione dei processi nella CPU sia minore o uguale alla lunghezza del time quantum di RR
