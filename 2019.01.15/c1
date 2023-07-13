@@ -9,25 +9,25 @@ in cui sono stati sospesi (FIFO).*/
 //w-> peso dell'operazione
 //somma dei pesi delle op P completate <= somma pesi operazioni V completate + init
 monitor wsem{
-  int init = 0;
   condition ok2go;
   int np=0; 
   int nv = 0;
+  int value = 0;
 
   //i processi che si bloccano a causa di una P che invaliderebbe l'invariante devono essere riattivati in ordine FIFO
   void P(w){
-    np++;
+    np+=w;
     if(np > nv + init || init==0){
       ok2go.wait();
     }
-    init--;
-    np--;
+    value--;
+    np-=w;
   }
 
   void V(w){
-    nv ++;
+    nv += w;
     ok2go.signal();
-    init ++;
-    nv --;
+    value ++;
+    nv -= w;
   }
 }
