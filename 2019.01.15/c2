@@ -1,3 +1,5 @@
+far correggere
+
 /* Dato un servizio di message passing asincrono e senza fare uso di processi server:
 a) implementare un servizio di message passing sincrono a ricezione multipla. Questo servizio prevede due funzioni
 con la seguente interfaccia:
@@ -13,30 +15,28 @@ a ricezione multipla.*/
 //MPA -> MPS a ricezione multipla
 
 //deve rimanere in attesa finché la ms_recv non è completata
-void ms_send(pid dest, msg_t msg){
-  asend(<getpid(), msg>, dest);
-  ACK = arecv(dest);
+ms_send (pid dest, msg_t msg){
+	asend(<getpid(), msg>, dest);
+	ACK = arecv(dest);
 }
 
-//deve attendere n mex, provenienti dai mittenti indicati nel vettore senders
-//e li mette ordinatamente nel vettore msgs
-msg_t * ms_recv(int n, pid * senders, msg_t *msgs){
-  pid * tmp = senders;
-  pid * trueSenders;
-  pid* ts = trueSenders;
-  for(i=0; i<n; i++){
-    //riceve da ogni sender il pid e il mex; aggiorna il puntatore 
-    s, m = arecv(tmp.val);
-    tmp = tmp.next;
-    tmp = NULL;
-    //aggiunge il sender in una lista e aggiorna il puntatore
-    ts.val = s;
-    ts = ts.next;
-    ts = NULL;
-  }
-  while(trueSenders!=NULL){
-    asend(trueSenders.val, ACK);
-    trueSenders = trueSenders.next;
-  }
-  return msgs;
+//attende n msg provenienti dai mittenti in senders (anche ANY)
+//e li mette in ordine in msgs
+
+ms_recv(int n, pid * senders, msg_t *msgs){
+	msg_t *p1 = msgs;
+	pid * p2 = senders;
+	//quando p2 ha finito di scorrere la lista dei senders
+	while(p2!=NULL){
+		s, m = arecv(p2.val);
+		p1.val = m;
+		p2.val = s;
+		p1 = p1.next;
+		p2 = p2.next;
+	}
+	while(senders!=NULL){
+		asend(ACK, senders.val);
+		senders=senders.next;
+	}
+	return msgs;
 }
