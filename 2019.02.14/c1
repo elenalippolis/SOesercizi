@@ -1,3 +1,5 @@
+da correggere; ,ma dovrebbe essere giusta
+
 /*Definiamo col nome di semaforo monobinario un semaforo che può assumere solamente i valori zero e
 uno. Come un semaforo binario ordinario una operazione monoP quando il semaforo ha valore zero deve bloccare il
 processo chiamante, altrimenti porta il valore del semaforo da 1 a 0. Quando il valore del semaforo è zero, una
@@ -6,27 +8,35 @@ monoV su un semaforo monobinario che ha valore 1 non produce alcun effetto. Scri
 che implementi i metodi monoP e monoV */
 
 
+//semaforo che può assumere solo i valori 0 e 1
 monitor monobinarysem{
-  condition ok2go;
-  int count=0;
-  int value = 1;
-  
-  //quando il sem ha val 0 deve bloccare il proc
-  //altrimenti porta il val da 1 a 0
-  procedure entry monoP(){
-    if(value==0){
-      count ++;
-      ok2go.wait();
-    }
-    val = 0;
-  }
+	int value;
+	queue waitingProc;
+	
+	//se il sem ha val 0 blocca il proc chiamante
+	//sennò porta il val a 0
+	void monoP(){
+		if(value==0){
+			condition c = new condition;
+			waitingProc.enqueue(c);
+			c.wait();
+		} else {
+			value = 0;
+		}
+	}
+	
+	//se il val è 0, sblocca il primo proc bloccato se ci sono
+	//altrimenti porta il val a 1
+	//se ha già val 1 non fa niente
+	void monoV(){
+		if(value==0){
+			if(!waitingProc.empty()){
+				c = waitingProc.dequeue();
+				c.signal();
+			} else {
+				value = 1;
+			}
+		}
+	}
 
-  //quando il sem è a 0, monoV sblocca il primo proc bloccato se ci sono
-  //altrimento porta il val da 0 a 1
-  procedure entry monoV(){
-    if(value == 0 && count >=1){
-      ok2go.signal();
-    }
-    val = 1;
-  }
 }
