@@ -1,0 +1,38 @@
+a. Quando un sistema è in trashing il carico della CPU (o delle CPU) è alto o basso, perché?
+
+Quando un sistema è in thrashing il carico della CPU tende ad essere alto.
+Thrashing si riferisce a una situazione in cui il s.o. sta dedicando una quantità eccessiva di tempo di CPU per la gestione delle attività di swapping tra memoria principale (RAM) e memoria di massa (disco rigido o SSD).
+Durante il thrashing il s.o. può trovarsi a gestire un numero significativo di processi o thread che richiedono più memoria di quella disponibile nella RAM. Di conseguenza, il sistema inizia ad effettuare frequenti operazioni di swap tra la RAM e la memoria di massa per liberare spazio per i dati richiesti dai processi in esecuzione.
+Lo swapping tra la RAM e la memoria di massa è un’operazione relativamente lenta rispetto all’accesso diretto alla RAM, il che causa un aumento significativo del tempo di attesa per l’accesso ai dati.
+Inoltre l’overhead (quantità di tempo e risorse aggiuntive) associato alle operazioni di swap richiede una grande quantità di tempo di CPU, che potrebbe essere usato in altro modo.
+Quindi la CPU durante il thrashing ha un carico generalmente alto in quanto il s.o. tende ad impegnare la CPU nell’effettuare operazioni di swap, gestione di richieste di memoria dei processi e mantenimento del sistema in uno stato operativo funzionante.
+
+b.  Come vengono memorizzati i link fisici in un filesystem?
+
+I link fisici sono usati per creare collegamenti tra file o directory all’interno del sistema di archiviazione. Ci sono 2 principali tipi di link fisici:
+    • hard link: un hard link crea una connessione diretta tra il nome del file e il suo inode nel filesystem. L’inode contiene le informazioni del file (dati effettivi e metadati associati). Quando viene creato un hard link vengono assegnati al file originale e al nuovo link lo stesso inode. Quindi, sia il file originale che l’hard link puntano allo stesso inode e condividono gli stessi dati del file. Questo significa che modifiche apportate al file originale o all’hard link si riflettono in entrambi.
+        ◦ Il file system mantiene un elenco di tutte le directory in cui il file è stato collegato tramite un hard link
+    • link simbolici (soft link): Un link simbolico è un file speciale che contiene un percorso o un’indicazione del nome di un altro file o directory nel filesystem. A differenze degli hard link, quelli simbolici creano un nuovo file con un proprio inode separato. Quando viene seguito un link simbolico, il s.o. interpreta il percorso o il nome specificato nel link simbolico e raggiunge il file o la directory di destinazione. Quindi il link simbolico può puntare a una posizione diversa nel file system rispetto al file originale; ed è possibile che il file di destinazione non esiste o venga rinominato senza influire sul soft link.
+        ◦ Il filesystem memorizza il percorso o il nome del file di destinazione nel soft link stesso.
+
+I link fisici vengono memorizzati nel filesystem usando informazioni nei metadati del file
+
+c.  Un sistema operativo a microkernel è più flessibile, più affidabile ma meno efficiente di un kernel monolitico. Spiegare brevemente il motivo delle tre affermazioni.
+
+    • Più flessibile: un s.o. a microkernel è considerato più flessibile perché separa le funzionalità di base del s.o. in componenti distinti. Il nucleo del microkernel fornisce solo le funzioni di base, come la gestione dei processi, la gestione della memoria e la comunicazione tra processi.
+Le funzionalità aggiuntive (driver dei dispositivi o file system) vengono implementati come servizi esterni che eseguono in modalità utente.
+Questa architettura permette di aggiungere, rimuovere o sostituire facilmente i servizi senza dover modificare il kernel, rendendo il sistema più flessibile
+    • più affidabile: un s.o. a microkernel è considerato più affidabile perché riduce la quantità di codice eseguito nel kernel del s.o.. Il kernel del microkernel si concentra solo sulle funzioni essenziali e critiche per la stabilità del sistema, riducendo la complessità e la possibilità di errori critici. 
+Inoltre, la separazione dei servizi in modalità utente significa che se un servizio fallisce o presenta un problema, non influenzerà direttamente il kernel, minimizzando arresti o malfunzionamenti del sistema nel complesso.
+    • Meno efficiente: un s.o. a microkernel è generalmente considerato meno efficiente in termini di prestazioni rispetto a un kernel monolitico. Questo è dovuto alla necessità di passare dati e messaggi tra kernel e servizi esterni, che comporta un overhead aggiuntivo di comunicazioni e di cambi di contesto.
+Inoltre l’esecuzione dei servizi in modalità utente richiede un’ulteriore protezione dei privilegi e meccanismi di gestione, che possono influire sulle prestazioni complessive.
+Al contrario, un kernel monolitico esegue tutte le funzionalità del s.o. direttamente nel nucleo, evitando la necessità di comunicazione o context switch tra diverse parti del sistema, avendo così prestazioni migliori in termini di velocità.
+
+d.  Esistono partizioni del disco che vengono usate senza creare su di esse strutture di file system? Perché?
+
+Si, questo avviene principalmente per due ragioni:
+    • partizioni di swap: partizione dedicata usata come area di memoria virtuale supplementare dal s.o.. Viene usata per memorizzare temporaneamente i dati che non possono essere accomodati nella memoria principale del sistema.
+Non richiede una struttura di file system poiché non memorizza file o directory accessibili dall’utente, ma serve semplicemente come area di archiviazione temporanea per i dati di swap
+    • partizioni di dati (raw partitions): vengono spesso usate per db o applicazioni in cui la velocità di accesso diretto è un fattore critico e non è necessario fornire un’interfaccia di file system standard per gli utenti.
+L’uso di partizioni del disco senza creare struttura di file system consente di ottimizzare le prestazioni del sistema o di fornire funzionalità specifiche senza la necessità di un’interfaccia di file system completa.
+Ciò comporta anche la limitazione dell'accesso e della gestione dei dati su quella partizione, poiché non sono disponibili le normali operazioni di lettura/scrittura dei file system.
