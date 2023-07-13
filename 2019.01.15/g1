@@ -1,3 +1,5 @@
+da correggere
+
 Si consideri l'algoritmo del banchiere a tre valute. Si prenda in considerazione una situazione nella quale
 tre processi p1, p2, p3 abbiano un massimo credito disponibile rispettivamente di (3, 2, 3), (3, 3, 2), (2, 3, 3), cioé per
 esempio p1 può prendere in prestito 3 unità della prima e della terza valuta ma solo 2 della seconda. In un certo istante
