@@ -1,5 +1,5 @@
-rifare: Non stai gestendo il caso in cui senders è vuoto e il messaggio non viene da un mittente in senders.
-Non è chiaro come gestisci i messaggi da mittenti non specificati quando senders non è vuoto.
+RIFARE
+soluzione seguente giusta
 
 /*Esercizio c.2: Dato un servizio di message passing asincrono implementare un servizio di message passing
 asincrono a selezione di mittenti (samp) senza fare uso di processi server.
@@ -9,27 +9,24 @@ sarecv(senders)
 dove senders è un insieme.
 la sarecv restituisce il primo messaggio che uno dei processi in senders ha spedito al processo ricevente
 usando la sasend (o spedito da qualsiasi processo se senders è vuoto).*/
-
-sasend(msg, dest){
-  asend(<getpid(), msg>, dest);
+void sasend(msg_t msg, pid_t dst) {
+  asend((getpid(), msg), dst)
 }
 
-//restituisce il primo mex che uno dei proc in senders ha spedito al proc ricevente
-//usando la sasend (o chiunque se è vuoto)
-sarecv(senders){
-  while(true){
-    send, msg = arecv(ANY);
-    if(!db.found(send)){
-      db.add(<send, msg>);
-    }
-    if(send in senders && !senders.empty()){
-      if(db.found(send)){
-        msg = db.remove(send);
-        return msg;
-      }
-    } else if(senders.empty()){
-      msg = db.remove.first;
-      return msg;
-    }
-}
+Dic<pid_t, Queue<msg_t>> db;
+
+msg_t sarecv(pid_t sndrs[]) {
+  for(sndr in sndrs) {
+    if(!db.has(sndr) || db.get(sndr).size() == 0)
+      continue;
+
+    return db.get(sndr).pop()
+  }
+  (pid_t, msg_t) (sndr, msg);
+  do {
+    (sndr, msg) = arecv()
+    if(!(sndr in sndrs))
+      db.get(sndr).push(msg)
+  } while(!(sndr in sndrs))
+  return msg;
 }
