@@ -1,0 +1,26 @@
+stack buffer;
+semaphore mutex(1);
+semaphore sem(0);
+int wr = 0;
+
+void push(value){
+	mutex.P();
+	buffer.push(value);
+	if(wr>0){
+		sem.V();
+	} else {
+		mutex.V();
+	}
+}
+
+value pop(){
+	mutex.P();
+	if(buffer.size < 0){
+		wr++;
+		mutex.V();
+		sem.P();
+	}
+	val = buffer.pop();
+	mutex.V();
+	return val;
+}
