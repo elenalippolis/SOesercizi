@@ -1,0 +1,36 @@
+
+monitor delirium{
+	queue <type, capacity> storage;
+	condition ok2pour, ok2load;
+
+	//se il fusto è quasi vuoto il barista riempie parzialmente il bicchiere e 
+	//attiva il magazziniere che lo cambia, e poi verserà fino a q.ta giusta
+	//mentre un barist aspetta gli altri potrebbero ricevere ordini x stesso tipo di 
+	//birra
+	void pour(type, quantity){
+		int tmp = 0;
+		if(storage(type).capacity < quantity){
+			tmp = quantity - storage(type).capacity;
+			storage(type).capacity = 0;
+			ok2pour.wait();
+		}
+		storage(type).capacity -= (tmp);
+	}
+	
+	//magazziniere
+	type isempty(){
+		foreach(s in storage){
+			if(s.second() == 0){
+				//ok2load.signal();
+				return s.first();
+			}
+		}
+	}
+	
+	void loaded(type, capacity){
+		//ok2load.wait();
+		storage(type).capacity += capacity;
+		ok2pour.signal();
+	}
+}
+
