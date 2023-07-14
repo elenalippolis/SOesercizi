@@ -1,3 +1,6 @@
+//uso la struttura set perché non so bene cosa usare
+//però per me è giusto
+
 /*
 Esercizio c.1: Il monitor delay deve fornire tre procedure entry:
 boolean delay(unsigned int timeout)
@@ -10,31 +13,27 @@ Scrivere delay.
 */
 
 monitor delay{
-  list <int, condition> waitingProc;
+	set <condition. unsigned int> waitingProc;
 
-  //proc in attesa attende timeout ms prima di sbloccarsi
-  boolean delay(unsigned int timeout){
-    condition c = new condition;
-    waitingProc.add(<timeout, c>);
-    c.wait();
-  }
-
-  //restituisce num processi in attesa a causa di un delay
-  int count(){
-    return(waitingProc.length);
-  }
-
-  //richiamata ogni ms
-  void tick(){
-    //decrementa tutti i timeout dei processi di 1
-      decrementAll(waitingProc);
-      tmp=waitingProc;
-      while(!tmp==NULL){
-        if(tmp.val.first==0){
-          c = tmp.val.delete();
-          c.signal();
-          tmp = tmp.next;
-        }
-      }
-  }
+	//processo metto in attesa, attende timeout ms
+	boolean delay(unsigned int timeout){
+		condition c = new condition;
+		waitingProc.add(c, timeout);
+		c.wait();
+		waitingProc.remove(c, timeout);
+	}
+	
+	//restituisce prc in attesa
+	int count(){
+		return(waitingProc.length());
+	}
+	
+	void tick(){
+		foreach proc in waitingProc{
+			proc.first()--;
+			if(proc.first()==0){
+				proc.second.signal();
+			}
+		}
+	}
 }
