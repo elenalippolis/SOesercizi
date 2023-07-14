@@ -1,3 +1,6 @@
+corretto
+ricorda: la prima va sbloccata la mutex e poi il semaforo, sennò si richiano dati obsoleti
+
 process bohm[i, i=0,1] {
  for (;;) {
  m.pre(i);
@@ -27,33 +30,31 @@ sveglia 1
 
 ---------------------------
 
-semaphore s(1);
 semaphore mutex(1);
-int state =0;
+semaphore sem(1);
+int state = 0;
 
 process bohs[i, i=0,1] {
  for (;;) {
- pre(i);
- print(i);
- post(i);
+ 	pre(i);
+ 	print(i);
+ 	post(i);
  }
 }
-
 void pre(int n) {
-  mutex.P();
-  if(state!=n){
-   s.P()
-   mutex.V();
-  } else {
-   mutex.V();
-  }
-  
+	mutex.P();
+	if(state!=n){
+		mutex.V();
+		sem.P();
+	} else {
+		mutex.V();
+	}
 }
 void post(int n) {
-  mutex.P();
-  state=1-state;
-  mutex.V();
-  s.V();
+	mutex.P();
+	state = 1- state;
+	mutex.V();
+	sem.V();
 }
 
 Scopo di questo esercizio è di studiare il comportamento del programma composto dai processi bohm e dal monitor
