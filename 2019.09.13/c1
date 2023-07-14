@@ -1,7 +1,5 @@
-rivedi: Hai un buon inizio, ma ci sono alcuni problemi con il tuo monitor. La variabile nget dovrebbe essere
-incrementata in get() e decrementata in add() dopo che il dato è stato ricevuto da n processi. 
-Inoltre, add() dovrebbe mettere in attesa il processo solo quando il buffer è pieno. 
-Allo stesso modo, get() dovrebbe mettere in attesa il processo solo quando il buffer è vuoto.
+quello sotto è l'es corretto del prof
+RIFARE
 
 /*
 Esercizio c.1: Scopo di questo esercizio è di scrivere un monitor mbuf che realizzi un buffer limitato dove ogni elemento
@@ -19,43 +17,44 @@ chiamino (o abbiano chiamato) la get e a quel punto restituisce il dato a tutti 
 */
 
 #define MAXXELEM
+//l'elem dal buffer
 monitor mbuf{
-  Queue buffer[MAXELEM]= new Queue();
-  int waitingGet=0;
-  condition ok2add, ok2get, nget;
+	queue of struct{type val, int n} buffer;
+	condition ok2add, ok2get;
+	int nget=0;
+	
 
-  //aggiunge sempre un elemento a prescindere dalla molteplicità n
-  //un dato inserito n volte deve essere ricevuto da n processi: il monitor attende che n processi chiamino la get
-  // e restituisce a tutti quell'elemento e lo toglie dal buffer
-  void add(type data, int n){
-    int rest = n;
-
-    while(true){
-      if(waitingGet<n){
-        nget.wait();
-      }
-      while(rest> 0){
-        if(buffer.length>MAXELEM){
-         ok2add.wait();
-        }
-      buffer.enqueue(data);
-      rest--;
-    }
-      ok2get.signal()
-    }
-    
-  }
-
-  //restituisce il primo dato disponibile
-  type get(){
-    nget++;
-    if(waitingGet==n){
-      nget.signal()
-    }
-    ok2get.wait();
-    data = buffer.dequeue();
-    ok2add.signal()
-    nget--;
-    return data;
-  }
+	//inserisce data con molteplicità n
+	void add(type data, int n){
+	
+		if(buffer.length >= MAXELEM){
+			ok2add.wait();
+		}
+		buffer.enqueue(data, n);
+		if(buffer.head().n <= nget){
+			ok2get.signal();
+		}
+		
+	}
+	
+	//restituisce il primo dato disponibile
+	type get(){
+		nget++;
+		if(buffer.empty() || buffer.head().n > nget){
+			ok2get.wait();
+		}
+		nget--;
+		//copia solo i valori
+		val, n = buffer.head();
+		buffer.head().n--;
+		if(buffer.head().n > 0){
+			ok2get.signal()
+		} else {
+			buffer.dequeue(val, n);
+			ok2add.signal()
+		}
+		return val;
+	}
 }
+
+scrive una volta val, ma decrementa n;
