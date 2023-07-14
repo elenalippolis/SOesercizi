@@ -1,0 +1,27 @@
+b. ha senso utilizzare RAID 5 con due dischi?
+
+No, RAID5 è un livello di configurazione di un sistema di archiviazione che richiede almeno 3 disco per funzionare correttamente.
+Nel RAID5 i dati vengono distribuiti tra i dischi insieme a una parità distribuita in modo che in caso di guasto di un disco, i dati mancanti possano essere ricostruiti usando le informazioni di parità di altri dischi.
+Ogni disco contribuisce alle informazioni di parità per gli altri dischi.
+Con due dischi non è possibile implementare RAID5 perché mancherebbe il disco aggiuntivo per memorizzare le informazioni di parità e ripristinare i dati in caso di guasto.
+
+c. in quali casi entra in funzione il paginatore in un sistema di memoria virtuale e quando viene richiamato l'algoritmo di rimpiazzamento?
+
+Il paginatore (o gestore della memoria virtuale) e l’algoritmo di rimpiazzamento delle pagine sono componenti cruciali di un sistema di memoria virtuale.
+Il paginatore viene attivato quando un s.o. usa la tecnica della memoria virtuale per gestire l’allocazione della memoria fisica. In un sistema di memoria virtuale, lo spazio di indirizzamento di un processo viene diviso in pagine di dimensioni fisse. Le pagine vengono mappate su frame fisici nella memoria principale o sullo spazio di swap su disco.
+
+Quando un processo tenta di accedere a una pagina che non è presente nella memoria fisica, si verifica un page fault. A questo punto, il paginatore viene chiamato per gestire la richiesta di pagina mancante. Il compito del paginatore è caricare la pagina richiesta dalla memoria virtuale a quella fisica, sostituendo eventualmente una pagina presente.
+
+Algoritmo di rimpiazzamento delle pagine: chiamato dal paginatore quando è necessario liberare uno o più frame nella memoria fisica per allocare una nuova pagina richiesta. Questo si verifica quando la memoria fisica è piena e non ci sono frame liberi disponibili.
+Decide l’algoritmo quale pagina sostituire per fare spazio alla nuova, con l’obiettivo di massimizzare l’uso della memoria fisica e minimizzare il numero di page fault.
+
+
+d. quali sono i vantaggi e quali gli svantaggi dell'utilizzo di librerie dinamiche?
+Vantaggi:
+    • riduzione delle dimensioni dei file eseguibili: le librerie dinamiche consentono di separare il codice comune in file separati che possono essere condivisi tra più applicazioni. Questo riduce la dimensione complessiva dei file eseguibili perché il codice comune è caricato una sola volta in memoria e usato da più programmi.
+    • risparmio di memoria: le librerie dinamiche vengono caricate in memoria solo quando sono effettivamente richieste durante l’esecuzione del programma. Ciò consente di risparmiare memoria (solo le parti del codice necessarie vengono caricate)
+    • modifiche e correzioni possono essere apportate al codice comune senza dover ricompilare l’intero programma
+svantaggi:
+    • dipendenze esterne: se la libreria dinamica richiesta non è presente o non compatibile con l’ambiente in cui viene eseguito il programma, potrebbe essere necessario installare versioni specifiche della libreria o risolvere i problemi di compatibilità
+    • prestazioni: a causa dell’overhead aggiuntivo associato al caricamento delle librerie dinamiche a tempo di esecuzione, le prestazioni potrebbero essere inferiori a quelle statiche (in modo non molto rilevante)
+    • le librerie dinamiche potrebbero non essere portabili tra diversi sistemi operativi o architetture
