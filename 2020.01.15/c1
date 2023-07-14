@@ -1,3 +1,6 @@
+soluzione corretta
+RIFAI
+
 /*
 Esercizio c.1: Il monitor "semaforo con timeout" semtimeout deve fornire tre procedure entry:
 void V(void)
@@ -10,46 +13,42 @@ processi in attesa in ordine FIFO.
 Scrivere semtimeout
 */
 
+
 monitor semtimeout{
-  list <condition,int> waitingProc;
-  bool isTimeout;
-  int value = 0;
-  //int nP, nV;
-  
-  
-  //riattiva i processi in attesa in ordine fifo
-  void V(){
-  //in ordine fifo
-    if(waitingProc != NULL){
-      c, timeout = waitingProc.first.remove();
-      isTimeout=false;
-      value --;
-      c.signal();
-    }
-  }
+queue waitingProc <condition, int>;
+int value;
+//int value;
 
-  //proc messo in attesa aspetta max timeout ms
-  //se viene riattivato dal timeout return true else return false
-  boolean P(int timeout){
-    if(value ==0){
-      condition c = new condition
-      waitingProc.add(<c, timeout>);
-      c.wait();
-    }
-    return isTimeout;
-  }
-
-  //richiamata a ogni ms
-  void tick(){
-    decrementAllByOne(waitingProc);
-    list tmp = waitingProc;
-    while(tmp!=NULL){
-      if(tmp.val.Second==0){
-        c = tmp.val.remove(0);
-        isTimeout=true;
-        value --;
-        c.signal();
-      }
-    }
-  }
+	riattivano i proc in ordine FIFO
+	void V(){
+		if(!waitingProc.empty()){
+			c = waitingProc.first().first;
+			c.signal();
+		}
+	}
+	
+	//proc in attesa a causa di P attende al max timeout ms;
+	//se viene riattivato per timeout, P ritorna true, altrimenti false
+	boolean P(unsigned int timeout){
+	
+		if(value==0){
+			condition c = new condition;
+			waitingProc.enqueue(c, timeout);
+			c.wait();
+			waitingProc.remove(c, timeout);
+			value--;
+			return(timeout==0);
+		}
+		return false;
+	}
+	
+	//chiamata ogni ms
+	void tick(){
+		foreach proc in waitingProc:
+			proc.Second()--;
+			if(proc.Second==0){
+				proc.first.signal();
+			}
+			
+	}
 }
