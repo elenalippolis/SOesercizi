@@ -23,4 +23,7 @@ pr statica, con p1 max prio, p2 med prio, p3 min prio
 cpu p1 p1 p2 p2 p3 p3
 i/o       p1 p1 p2 p2 p3 p3
 
-Si comportano allo stesso modo se m=x, partono con la stessa sequenza
+
+Per comportarsi allo stesso modo:
+- scheduler round robin con time slice m: m>=x
+così il processo sarà completato senza essere interrotto
