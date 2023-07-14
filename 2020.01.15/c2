@@ -1,5 +1,4 @@
-rifai: non stai effettivamente controllando se hai ricevuto il messaggio times volte prima di inviare l'ACK.
-
+DA CONTROLLARE
 /*
 Esercizio c.2: Dato un servizio di message passing asincrono scrivere un servizio di message passing sincrono a
 spedizione multipla (senza fare uso di processi server). Devono essere previste due funzioni:
@@ -12,22 +11,22 @@ qualsiasi mittente.
 */
 //MPA -> MPS a spedizione multipla
 
-//spedisce il msg al proc dest times volte; solo quando è stato ricevuto times volte esce
+//spedisce msg a dest times volte
+//solo quando il mex è stato ricevuto times volte l'esecuzione viene completata
 mulsend(pid_t dest, T msg, int times){
-  for (i=0; i<times i++){
-    asend(<getpid(), msg, times>, dest);
-  }
-  ACK = arecv(sender);
+	for(int i=0; i<times; i++){
+		asend(<getpid(), msg, times>, dest);
+	}
+	ACK = arecv(dest);
 }
 
-//0 sender -> ANY
+//sender può essere ANY
 T mulrecv(pid_t sender){
-  while(true){
-    s, msg, times = arecv(ANY);
-    db.add(<s, msg>);
-    if(db.count(s)==times){
-      asend(s, ACK);
-      return msg;
-    }
-  }
+	s, m , times= arecv(ANY);
+	db.add(s, m);
+	
+	if(db.count(s)==times){
+		asend(ACK, s);
+	}
+	return m;
 }
