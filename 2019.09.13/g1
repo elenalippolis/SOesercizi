@@ -1,4 +1,6 @@
- Sia dato in programma che elabori per x millisecondi, compia una operazione di I/O su uno specifico
+corretto
+
+Sia dato in programma che elabori per x millisecondi, compia una operazione di I/O su uno specifico
 device per y millisecondi quindi faccia una elaborazione finale per x millisecondi e termini.
 Si eseguano tre istanze dello stesso programma su un sistema monoprocessore. I tre processi iniziano l'esecuzione al
 tempo zero e accedono allo stesso device in modo mutualmente esclusivo: le richieste di I/O vengono gestite in
