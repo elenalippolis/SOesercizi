@@ -14,30 +14,41 @@ Scrivere il monitor riempisvuota.
 
 #define MAX;
 monitor riempisvuota{
-set <pid_t, condition> buffer;
+stack <pid_t, condition> buffer;
 condition ok2entra;
+int count;
+bool staRiempiendo;
 
+	//entrano MAX processi, finché non è pieno nessuno esce
 	entra(pid){
-		if(buffer.length>=MAX){
+		count ++;
+		if(count == MAX){
+			staRiempiendo=false;
 			ok2esci.signal();
 			ok2entra.wait();
 		} 
-		c = new condition;
-		buffer.add(<pid, c>);
+		staRiempiendo = true;
+		condition c = new condition;
+		buffer.push(pid, c);
 		c.wait();
-		
+		count --;
 	}
 	
-	esci(pid_t){
-		ok2esci.wait();
-		//rimuove l'ultimo entrato
-		pid, c = buffer.remove();
-		c.signal();
-		
-		if(buffer.length==0){
-			ok2entra.signal();
-		} else {
-			ok2esci.signal();
+	esci(pid){
+		if(staRiempiendo){
+			ok2esci.wait();
 		}
+		while(!buffer.empty()){
+			c, p = buffer.head();
+			if(p==pid){
+				buffer.remove(c, p);
+				c.signal();
+			} else {
+				ok2esci.signal();
+			}
+		}
+		staRiempiendo = true;
 	}
 }
+
+
