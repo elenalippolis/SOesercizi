@@ -1,0 +1,29 @@
+//esercizio corretto
+/*
+Sia dato un servizio di message passing a diffusione che fornisce due funzioni:
+void bsend(msg_type msg)
+msg_type brecv(void)
+I messaggi spediti con la bsend vengono ricevuti da tutti i processi e la brecv riceve i messaggi spediti da ogni mittente.
+I messaggi di ogni mittente vengono ricevuti il ordine FIFO.
+E’ possibile con il servizio a diffusione implementare un servizio di message passing asincrono? Se sì fornire l’implementazione, se no
+(di)mostrare l’impossibilità.
+*/
+//messaggi vengono ricevuti da tutti i processi
+void bsend(msg_type msg);
+
+//riceve i mex spediti da tutti in ordine FIFO
+msg_type brecv();
+
+asend(pid_t dest, msg_type msg){
+	bsend(<getPid(), dest, msg>);
+}
+
+arecv(pid_t sender){
+	while(true):
+		s, dest, msg = brecv();
+		if(s==sender && dest == getpid){
+			return m;
+		} else if(sender==ANY && dest==getpid){
+			return m;
+		}
+}
