@@ -1,0 +1,49 @@
+corretto
+
+
+/*Un semaforo intelligente controlla un incrocio al quale si può accedere da 4 direzioni N, E, S, W. Un solo veicolo alla
+volta deve occupare l’area dell’incrocio. Se sono presenti veicoli da tutte le direzioni, il semaforo fa avanzare ciclicamente un veicolo
+da ogni direzione (NESWNESWNESW…). Se nessun veicolo è in attesa da una direzione, il turno viene saltato.
+Quella che segue è la porzione di di programma eseguita dai veicoli per passare attraverso l’incrocio:
+*/
+
+//crossing.enter(direction)
+// …critical section
+// crossing.exit(direction)
+ Nonostante sia un semaforo, questo esercizio deve venir risolto coi monitor
+
+
+#define N 0
+#define E 1
+#define S 2
+#define W 3
+
+//un solo veicolo alla volta deve occupare l'incrocio
+//se ci sono veicoli da tutte le direzioni li fa avanzare ciclicamente
+//se non ci sono veicoli in attesa, il turno viene saltato
+
+monitor crossing{
+bool occupato = false;
+condition ok2go[4];
+int waiting[4];
+
+	enter(direction){
+		//se l'incrocio è libero e nessuno è in attesa vai
+		if(occupato == true){
+			waiting[direction]++;
+			ok2go[direction].wait();
+			waiting[direction]--;
+		}
+		occupato = true;
+		
+	}
+	
+	exit(direction){
+		occupato = false;
+		next = {dir+1%4, dir+2%4, dir+3%4, dir}
+		for n in next
+			if(waiting[n]>0):
+				oktogo[n].signal();
+		
+	}
+}
