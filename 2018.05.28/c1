@@ -16,6 +16,7 @@ Scrivere il monitor riempisvuota.
 monitor riempisvuota{
 stack <pid_t, condition> buffer;
 condition ok2entra;
+condition ok2esci;
 int count;
 bool staRiempiendo; //boolean di controllo: se è in vero continua a riempire lo stack
 		    // se false inizia a svuotarlo
@@ -36,10 +37,8 @@ bool staRiempiendo; //boolean di controllo: se è in vero continua a riempire lo
 	}
 	
 	esci(pid){
-		if(staRiempiendo){
-			ok2esci.wait();
-		}
-		while(!buffer.empty()){
+		if(!staRiempiendo){
+			while(!buffer.empty()){
 			c, p = buffer.head();
 			if(p==pid){
 				buffer.remove(c, p);
