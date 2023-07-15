@@ -44,6 +44,7 @@ int waiting=0;
 					//controllo eccezione sia vuoto
 					p2, c2 = buffer.head();
 					c2.signal();
+					break;
 				} else {
 					c.wait();
 					buffer.remove(p);
@@ -53,6 +54,7 @@ int waiting=0;
 		countEntra--;
 		countEsci--;
 		//staRiempiendo = true;
+		//se è l'ultimo processo aggiorna
 		if(waiting<MAX){
 			for(i=0;i<waiting; i++){
 				ok2entra.signal();
