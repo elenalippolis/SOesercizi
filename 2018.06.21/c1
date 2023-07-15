@@ -1,0 +1,116 @@
+fai controllare
+/* Per raggiungere un'isola con l'autovettura occorre un traghetto. Il traghetto di questo esercizio ha una sola rampa sulla
+quale può transitare una automobile alla volta.
+Il traghetto può imbarcare al massimo MAX automobili. Il traghetto parte solo quando è completamente carico. Occorre disimbarcare
+tutte le auto prima di imbarcare quelle che desiderano fare la traversata in senso contrario. Le auto possono essere sbarcate in
+qualsiasi ordine purché una sola alla volta passi sulla rampa.
+Il processo traghetto è il seguente:
+
+ traghetto: process:
+ 	while True:
+ 		tmon.al_porto(TERRAFERMA)
+ 		... naviga
+		 tmon.al_porto(ISOLA)
+		 ... naviga
+	 
+Mentre le auto per usare il traghetto chiamano uno dei due segmenti di codice:
+
+ tmon.imbarca(TERRAFERMA) 
+ // sulla rampa 
+ tmon.imbarcato(TERRAFERMA)
+ // sulla nave 
+ tmon.sbarca(ISOLA) 
+ // sulla rampa 
+ tmon.sbarcato(ISOLA) 
+ 
+ tmon.imbarca(ISOLA)
+ // sulla rampa
+  tmon.imbarcato(ISOLA)
+  /* sulla nave 
+  tmon.sbarca(TERRAFERMA)
+  /* sulla rampa 
+  tmon.sbarcato(TERRAFERMA)
+  
+Scrivere il monitor tmon.
+*/
+//traghetto ha solo una rampa; un'auto alla volta
+//traghetto imbarca MAX automobili e parte sse carico.
+//sbarca tutte le auto prima di imbarcare quelle in senso contrario (una alla volta)
+
+#define TERRAFERMA 0
+#define ISOLA 1
+
+monitor tmon{
+int posizione_attuale;
+condition ok2imbarca[2];
+condition ok2sbarca[2];
+condition ok2parti;
+ok2rampa[2];
+bool rampa[2];
+int imbarcate[2];
+	
+	//traghetto
+	al_porto(pos){
+		//aspetta finché non ci sono MAX auto sbarcate in posizione
+		//aspetta finché non ci sono MAX auto imbarcate in posizione
+		//parte
+		
+		posizione_attuale = posizione;
+		if(imbarcate[1-pos]>0){
+			ok2sbarca[1-pos].signal();
+			
+		} else {
+			ok2imbarca[pos].signal();
+			
+		}
+		ok2parti.wait();
+		
+	}
+	
+	//auto
+	//sulla rampa
+	imbarca(pos){
+	//sbloccato dallo sbarca?
+		ok2imbarca[pos].wait();
+		if(rampa[pos]==false){
+			ok2rampa[pos].wait();
+		}
+		rampa[pos]= false;
+		
+	}
+	
+	//sulla nave
+	imbarcato(posizione){
+		imbarcate[pos]++;
+		rampa[pos]=true;
+		
+		if(imbarcate[pos]<MAX){
+			ok2imbarca[pos].signal();
+		} else {
+			ok2parti.signal();
+		}
+		
+	}
+	
+	//sulla nave
+	sbarca(pos){
+		ok2sbarca[pos].wait();
+		if(rampa[pos]==false){
+			ok2rampa[pos].wait();
+		}
+		rampa[pos]=false;
+	}
+	
+	//sulla rampa
+	sbarcato(posizione){
+		imbarcate[pos]--;
+		rampa[pos]=false;
+		
+		if(imbarcate[pos]>0){
+			ok2sbarca[pos].signal();
+		} else {
+			ok2imbarca[1-pos].signal();
+		}
+	}
+}
+
