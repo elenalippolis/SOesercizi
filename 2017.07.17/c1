@@ -1,0 +1,64 @@
+/*esame corretto
+
+In una conferenza il coordinatore decide l’ordine degli oratori e li chiama uno ad uno per poter fare il proprio intervento.
+Se l’oratore arriva in ritardo (non sta attendendo al momento della chiamata) perde il diritto di poter parlare.
+
+Coordinatore: process
+ while True:
+ chiamato = next(); //next è la funzione che restituisce il nome del prossimo oratore
+ print(“Chiamo ora a parlare “,chiamato);
+ if (conf.chiama(chiamato))
+ print(“ringrazio “, chiamato,” per la relazione”);
+ else
+ print(“mi dispiace che “, chiamato, “non sia presente”);
+ 
+Oratore[nome]: for nome in set_of_speakers
+ if conf.arrivato(nome):
+ //presentazione
+ conf.finepresentazione(nome)
+ 
+Scrivere il monitor conf. La funzione chiama aspetta che il relatore chiamato abbia completato l’intervento, se prensente, e restituisce
+vero altrimenti restituisce falso. La funzione arrivato segnala la presenza e pone il relatore in attesa del proprio turno. Se il relatore è
+già stato chiamato ed era assente restituisce falso
+*/
+
+monitor conf{
+	list waitingRelatori <c, nome>;
+	list notPresentRelatori;
+	condition ok2chiama;
+	//condition ok2arriva;
+	
+	//aspetta che il relatore chiamato abbia finito l'intervento, se presente vero
+	//sennò falso
+	bool chiama(chiamato){
+		if(waitingRelatori.found(chiamato){
+			c, nome = waitingRelatori(chiamato).remove();
+			c.signal();
+			ok2chiama.wait();
+			return true;
+		} else {
+			notPresentRelatori.add(chiamato);
+			return false;
+		}
+	}
+	
+	//segnala la presenza e pone il relatore in attesa del suo turno
+	//se è gia stato chiamato false
+	bool arrivato(nome){
+		if(notPresentRelatori.found(nome)){
+			notPresentRelatori.remove(nome);
+			return false;
+		} else {
+			c = new condition;
+			waitingRelatori.add(c, nome);
+			c.wait();
+			return true;
+		}
+	}
+	
+	void finepresentazione(nome){
+		ok2chiama.signal();
+
+	}
+
+}
