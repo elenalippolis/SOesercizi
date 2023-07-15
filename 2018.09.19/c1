@@ -1,0 +1,61 @@
+/*rfare l'esercizio
+
+Scrivere il monitor di controllo per lo smistamento delle valigie all'aeroporto di Bologna. Un carrello viaggia su un
+binario circolare. Il carrello si ferma ad una postazione dove vengono caricate le valigie e quindi in corrispondenza a più postazioni
+dove vengono scaricate le valigie. Esiste una postazione corrispondente ad ogni aeroporto di destinazione.
+Alla postazione di caricamento un addetto scansiona dal codice a barre l'aeroporto di destinazione e il nome del proprietario della
+valigia.
+Il codice dei processi coinvolti nel problema è il seguente:
+int airport_codes = [BLQ, CDG, BRX, LGW, FCO, ....]
+## l'elemento 0, BLQ (codice di Bologna) corrisponde alla stazione di caricamento
+cart: process
+ while True:
+ for code in airport_codes:
+ dispatch.cartat(code) # il carrello è alla postazione code
+loadingstation: process
+ while True:
+ dstcode,owner = read_barcode()
+ dispatch.load(dstcode, owner) #carica la valigia del viaggiatore owner diretto a dstcode
+station, for dstcode in airport_codes[1:]: process
+ while True:
+ owner = dispatch.unload(dstcode) #scarica dal carrello la valigia dell'utente owner
+ process_luggage(ownder, dstcode)
+Condizioni da rispettare: il carrello trasporta MAX valigie, alla stazione di caricamento il carrello si ferma fino al riempimento completo
+del carrello, alle altre stazioni deve sostare fino a quando tutte le valigie per la destinazione sono state scaricate.
+*/
+
+monitor dispatch {
+  airport_code cart_pos = BLQ;
+  condition cart_at[airport_code_length];
+  condition empty_at[airport_code_length];
+
+  KeydList<airport_code, string> l; // analoga a HashMap<airport_code, Queue<string>>
+  condition unloaded;
+
+
+  procedure entry void load(airtport_code dst, string owner) {
+    if(l.size() >= MAX)
+      unloaded.wait()
+
+    l.get(dst).enqueue(owner)
+  }
+
+  procedure entry void cartat(airport_code cd) {
+    if(l.get(cart_pos).empty())
+      empty_at[cart_pos].wait()
+
+    cart_pos = cd
+    cart_at[cd].signal()
+  }
+
+  procedure entry unload(airtport_code dst) {
+    if(cart_pos != dst)
+      cart_at[dst].wait()
+
+    if(!l.get(dst).empty())
+      unloaded.signal()
+      return l.get(dst).dequeue()
+    else
+      empty_at[dst].signal()
+  }
+}
