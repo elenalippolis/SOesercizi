@@ -1,4 +1,4 @@
-fai controllare
+//fai controllare
 
 /* La struttura di sincronizzazione riempisvuota ha le seguenti caratteristiche:
 -) entrano MAX processi, e fino a che non è piena nessun processo può uscire
@@ -17,7 +17,8 @@ monitor riempisvuota{
 stack <pid_t, condition> buffer;
 condition ok2entra;
 int count;
-bool staRiempiendo;
+bool staRiempiendo; //boolean di controllo: se è in vero continua a riempire lo stack
+		    // se false inizia a svuotarlo
 
 	//entrano MAX processi, finché non è pieno nessuno esce
 	entra(pid){
