@@ -22,7 +22,7 @@ bool staRiempiendo;
 int waiting=0;
 
 	entra(pid){
-		if(count >= MAX){
+		if(countEntra >= MAX){
 			waiting++;
 			staRiempiendo=false;
 			ok2entra.wait();
@@ -38,19 +38,21 @@ int waiting=0;
 		countEsci++;
 		if(!staRiempiendo){
 			while(!buffer.empty()){
-			p, c = buffer.head();
-			if(p==pid){
-				buffer.remove(p);
-				p2, c2 = buffer.head();
-				c2.signal();
-			} else {
-				c.wait();
-				buffer.remove(p);
-			}		
+				p, c = buffer.head();
+				if(p==pid){
+					buffer.remove(p, c);
+					//controllo eccezione sia vuoto
+					p2, c2 = buffer.head();
+					c2.signal();
+				} else {
+					c.wait();
+					buffer.remove(p);
+				}		
 			}
+		}
 		countEntra--;
 		countEsci--;
-		staRiempiendo = true;
+		//staRiempiendo = true;
 		if(waiting<MAX){
 			for(i=0;i<waiting; i++){
 				ok2entra.signal();
