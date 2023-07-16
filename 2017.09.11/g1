@@ -1,0 +1,68 @@
+Sia data una sequenza di accessi in memoria effettuati da tre processi a,b,c. Si consideri un sistema che applichi il meccanismo del workingset in modo globale e non processo per processo.
+Il working set ha durata equivalente a 15 riferimenti in memoria e il numero di frame globale del sistema è pari a 10.
+Il sistema ha pagine da 256 byte.
+Sia data quindi la seguente sequenza di inditzzi relativa agli accessi in memoria dei processi.
+Calcolare i working set ad ogni istante. Vengono segnalate situazioni di trashing?
+
+a:123A	b:1211	c:1112	a:12FB	b:1A1A	c:0A0C	a:0002	b:0002
+c:0AAA	a:2D1A	b:0B0A	c:1211	a:1200	b:1A77	c:0A0A	a:1200
+c:11FF	b:123A	c:CAD0	a:DAD0	b:0000	a:12AA	b:1AA1	b:12BB
+b:12BB	b:0B0A	  
+
+Istante 1 Pagine distinte accedute 1
+12
+Istante 2 Pagine distinte accedute 1 
+12 12
+Istante 3 Pagine distinte accedute 2
+11 12 12 
+Istante 4 Pagine distinte accedute 2
+12 11 12 12 
+Istante 5 Pagine distinte accedute 3
+1A 12 11 12 12
+Istante 6 Pagine distinte accedute 4
+0A 1A 12 11 12 12
+Istante 7 Pagine distinte accedute 5
+00 0A 1A 12 11 12 12
+Istante 8 Pagine distinte accedute 5
+00 00 0A 1A 12 11 12 12
+
+Istante 9 Pagine distinte accedute 5
+0A 00 00 0A 1A 12 11 12 12
+Istante 10 Pagine distinte accedute 6
+2D 0A 00 00 0A 1A 12 11 12 12
+Istante 11 Pagine distinte accedute 7
+0B 2D 0A 00 00 0A 1A 12 11 12 12
+Istante 12 Pagine distinte accedute 7
+12 0B 2D 0A 00 00 0A 1A 12 11 12 12
+Istante 13 Pagine distinte accedute 7
+12 12 0B 2D 0A 00 00 0A 1A 12 11 12 12
+Istante 14 Pagine distinte accedute 7
+1A 12 12 0B 2D 0A 00 00 0A 1A 12 11 12 12
+Istante 15 Pagine distinte accedute 7
+0A 1A 12 12 0B 2D 0A 00 00 0A 1A 12 11 12 12
+Istante 16 Pagine distinte accedute 7
+12 0A 1A 12 12 0B 2D 0A 00 00 0A 1A 12 11 12 
+
+Istante 17 Pagine distinte accedute 7
+11 12 0A 1A 12 12 0B 2D 0A 00 00 0A 1A 12 11  
+Istante 18 Pagine distinte accedute 7
+12 11 12 0A 1A 12 12 0B 2D 0A 00 00 0A 1A 12
+Istante 19 Pagine distinte accedute 8
+CA 12 11 12 0A 1A 12 12 0B 2D 0A 00 00 0A 1A
+Istante 20 Pagine distinte accedute 9
+DA CA 12 11 12 0A 1A 12 12 0B 2D 0A 00 00 0A
+Istante 21 Pagine distinte accedute 9
+00 DA CA 12 11 12 0A 1A 12 12 0B 2D 0A 00 00
+Istante 22 Pagine distinte accedute 9
+12 00 DA CA 12 11 12 0A 1A 12 12 0B 2D 0A 00
+Istante 23 Pagine distinte accedute 9
+1A 12 00 DA CA 12 11 12 0A 1A 12 12 0B 2D 0A
+Istante 24 Pagine distinte accedute 9
+12 1A 12 00 DA CA 12 11 12 0A 1A 12 12 0B 2D
+
+Istante 25 Pagine distinte accedute 8
+12 12 1A 12 00 DA CA 12 11 12 0A 1A 12 12 0B
+Istante 26 Pagine distinte accedute 8
+0B 12 12 1A 12 00 DA CA 12 11 12 0A 1A 12 12
+
+In nessun istante viene mai segnalato il sistema come in trashing, il numero di pagine distinte accedute in memoria è in ogni istante minore del numero di frame disponibili
